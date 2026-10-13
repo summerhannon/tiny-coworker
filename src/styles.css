@@ -42,3 +42,75 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--focus-ring)
   background: var(--surface); color: var(--text); cursor: pointer; font-size: 14px;
 }
 button.primary { background: var(--accent-fill); color: var(--accent-ink); border-color: transparent; min-width: 96px; }
+
+/* ---------- full layout ---------- */
+.app {
+  width: min(100%, 360px);
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  grid-template-areas: "top" "buddy" "readout" "controls";
+}
+.app-top { grid-area: top; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+.phase-label { font-size: 14px; color: var(--text-2); }
+.icon-row { display: flex; gap: 4px; }
+.icon-btn {
+  background: none; border: 0; color: var(--text-2); padding: 6px; border-radius: 8px;
+  cursor: pointer; display: grid; place-items: center;
+}
+.icon-btn:hover { color: var(--text); background: var(--border); }
+.icon-btn[aria-pressed="true"] .snd-wave,
+.icon-btn:not([aria-pressed="true"]) .snd-x { display: none; }
+.buddy-slot { grid-area: buddy; padding-top: 40px; }
+.readout { grid-area: readout; display: grid; justify-items: center; gap: 8px; }
+.time { font-size: 48px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.dots-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
+.dots { display: flex; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--dot-empty); }
+.dot.filled { background: var(--dot-fill); border-color: var(--dot-fill); }
+.app .controls { grid-area: controls; }
+
+/* ---------- compact layout (small windows / future desktop app) ---------- */
+@media (max-width: 360px), (max-height: 420px) {
+  #app { padding: 8px; }
+  .app {
+    position: relative;
+    grid-template-areas: "buddy readout" "controls controls";
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    align-items: center;
+    justify-items: start;
+  }
+  .app-top { position: absolute; top: 0; right: 0; width: auto; }
+  .phase-label { display: none; }
+  .buddy-slot { padding-top: 28px; }
+  .buddy { --mouth-drop: 30px; }
+  .buddy-svg { width: 100px; height: 90px; }
+  .bubble { bottom: calc(100% - 28px); max-width: 160px; }
+  .bubble-box { font-size: 12px; padding: 4px 9px; }
+  .time { font-size: 28px; }
+  .dot { width: 7px; height: 7px; border-width: 1px; }
+  .app .controls, .icon-row { opacity: 0; transition: opacity 0.2s; }
+  .app:hover .controls, .app:focus-within .controls,
+  .app:hover .icon-row, .app:focus-within .icon-row { opacity: 1; }
+  .app .controls button { padding: 4px 10px; font-size: 12px; }
+  .app button.primary { min-width: 64px; }
+}
+
+/* ---------- settings dialog ---------- */
+.settings {
+  border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+  background: var(--surface); color: var(--text); width: min(92vw, 320px);
+}
+.settings::backdrop { background: rgba(0, 0, 0, 0.35); }
+.settings h2 { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
+.field { display: grid; gap: 4px; margin-bottom: 12px; font-size: 14px; }
+.field-input { display: flex; align-items: center; gap: 8px; color: var(--text-2); }
+.field-input input {
+  width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); font: inherit;
+}
+.field-input input[aria-invalid="true"] { border-color: var(--danger); }
+.field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
+.hint { font-size: 13px; color: var(--text-2); margin: 4px 0 16px; }
+.settings-actions { justify-content: flex-end; }
