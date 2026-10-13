@@ -26,7 +26,6 @@ export const BUDDY_SVG = `
       <circle class="b-cheek" cx="77" cy="112" r="6" fill="var(--b-cheek)"/>
       <circle class="b-cheek" cx="123" cy="112" r="6" fill="var(--b-cheek)"/>
       <path class="b-mouth" d="M94 113 Q100 119 106 113" stroke="var(--b-ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path class="b-mouth-flat" d="M96 115 L104 115" stroke="var(--b-ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       <path class="b-mouth-open" d="M93 112 Q100 123 107 112 Z" fill="var(--b-ink)" stroke="var(--b-ink)" stroke-width="1.5" stroke-linejoin="round"/>
       <circle class="b-mouth-o" cx="100" cy="116" r="3.5" stroke="var(--b-ink)" stroke-width="2.5" fill="none"/>
     </g>

@@ -118,10 +118,10 @@
 .b-eyes-closed, .b-eyes-happy, .b-zzz { opacity: 0; }
 
 /* ---------- expressions: alternate eyes and mouths fade in per state ---------- */
-.b-mouth-flat, .b-mouth-open, .b-mouth-o { opacity: 0; }
+.b-mouth-open, .b-mouth-o { opacity: 0; }
 .b-mouth-o { transform-box: fill-box; transform-origin: center; }
 .b-shadow { transform-origin: 100px 166px; transition: transform 0.7s ease; }
-.b-mouth, .b-mouth-flat, .b-mouth-open, .b-mouth-o, .b-eyes-happy { transition: opacity 0.25s ease; }
+.b-mouth, .b-mouth-open, .b-mouth-o, .b-eyes-happy { transition: opacity 0.25s ease; }
 .b-cheek { opacity: 0.7; transform-box: fill-box; transform-origin: center; transition: opacity 0.4s ease, transform 0.4s ease; }
 .b-eyes-open { animation: b-blink 4.5s infinite; }
 .b-steam { stroke-dasharray: 4 4; animation: b-steam 1s linear infinite; }
@@ -135,21 +135,20 @@
 [data-state="working"] .b-rfore-pose { transform: rotate(91.1deg); }
 [data-state="working"] .b-larm-pose { transform: rotate(-9.6deg); }
 [data-state="working"] .b-lfore-pose { transform: rotate(-91.1deg); }
-[data-state="working"] .b-face { transform: translateY(5px); }
+/* heads down: the face sinks so only the eyes peek over the laptop lid */
+[data-state="working"] .b-face { transform: translateY(11px); }
+[data-state="working"] .b-body-pose { transform: translateY(3px); }
 [data-state="working"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
 [data-state="working"] .b-rfore-loop { animation: b-tap 0.32s ease-in-out infinite alternate; }
 [data-state="working"] .b-lfore-loop { animation: b-tap 0.32s ease-in-out -0.16s infinite alternate; }
 [data-state="working"] .b-eyes-read { animation: b-read 3.2s ease-in-out infinite; }
 [data-state="working"] .b-eyes-open { animation: b-blink-slow 7s ease-in-out infinite; }
-[data-state="working"] .b-mouth { opacity: 0; }
-[data-state="working"] .b-mouth-flat { opacity: 1; }
 /* paused: hands still, look up from the screen */
 [data-state="working"][data-paused="true"] .b-face { transform: none; }
 [data-state="working"][data-paused="true"] .b-rfore-loop,
 [data-state="working"][data-paused="true"] .b-lfore-loop,
 [data-state="working"][data-paused="true"] .b-eyes-read { animation: none; }
-[data-state="working"][data-paused="true"] .b-mouth { opacity: 1; }
-[data-state="working"][data-paused="true"] .b-mouth-flat { opacity: 0; }
+[data-state="working"][data-paused="true"] .b-body-pose { transform: none; }
 
 /* ---------- break (coffee): hand on the handle, an occasional sip ---------- */
 [data-state="break"][data-activity="coffee"] .b-rarm-pose,
@@ -247,7 +246,6 @@
 .buddy-svg.b-waking .b-eyes-open { opacity: 1; animation: none; transform: scale(1.35); }
 .buddy-svg.b-waking .b-eyes-happy,
 .buddy-svg.b-waking .b-mouth,
-.buddy-svg.b-waking .b-mouth-flat,
 .buddy-svg.b-waking .b-mouth-open { opacity: 0; }
 .buddy-svg.b-waking .b-mouth-o { opacity: 1; }
 .buddy-svg.b-talking .b-mouth { animation: b-pop 0.3s ease-out; }
