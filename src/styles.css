@@ -1,0 +1,44 @@
+:root {
+  color-scheme: light dark;
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --text: #1f1e1c;
+  --text-2: #6b6a65;
+  --border: rgba(0, 0, 0, 0.12);
+  --accent-fill: #993c1d;
+  --accent-ink: #ffffff;
+  --dot-fill: #d85a30;
+  --dot-empty: rgba(0, 0, 0, 0.25);
+  --danger: #a32d2d;
+  --focus-ring: #378add;
+  font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1b19;
+    --surface: #262522;
+    --text: #f1efe8;
+    --text-2: #b4b2a9;
+    --border: rgba(255, 255, 255, 0.14);
+    --accent-fill: #f0997b;
+    --accent-ink: #2c2c2a;
+    --dot-fill: #f0997b;
+    --dot-empty: rgba(255, 255, 255, 0.3);
+    --danger: #f09595;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+#app { min-height: 100%; display: grid; place-items: center; gap: 24px; padding: 16px; }
+button { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.controls button {
+  padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); cursor: pointer; font-size: 14px;
+}
+button.primary { background: var(--accent-fill); color: var(--accent-ink); border-color: transparent; min-width: 96px; }
