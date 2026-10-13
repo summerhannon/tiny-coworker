@@ -23,6 +23,7 @@ export interface TimerOptions {
   durations: Durations;
   longBreakEvery: number;
   cycleCount?: number;
+  phase?: PhaseKind;
 }
 
 type Listener = (e: TimerEvent) => void;
@@ -44,7 +45,8 @@ export class Timer {
     this.durations = o.durations;
     this.longBreakEvery = o.longBreakEvery;
     this.cycleCount = o.cycleCount ?? 0;
-    this.phaseDuration = o.durations.focus;
+    this.phase = o.phase ?? 'focus';
+    this.phaseDuration = o.durations[this.phase];
   }
 
   on(listener: Listener): () => void {

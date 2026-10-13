@@ -3,9 +3,9 @@ import { Timer, type TimerEvent } from '../src/timer';
 
 const D = { focus: 1000, shortBreak: 300, longBreak: 600 };
 
-function make(every = 3, cycleCount = 0) {
+function make(every = 3, cycleCount = 0, phase?: 'focus' | 'shortBreak' | 'longBreak') {
   let t = 0;
-  const timer = new Timer({ now: () => t, durations: D, longBreakEvery: every, cycleCount });
+  const timer = new Timer({ now: () => t, durations: D, longBreakEvery: every, cycleCount, phase });
   const events: TimerEvent[] = [];
   timer.on((e) => events.push(e));
   return {
@@ -19,6 +19,16 @@ function make(every = 3, cycleCount = 0) {
 }
 
 describe('Timer', () => {
+  it('can start in the long break after a reload at a full cycle', () => {
+    const { timer, advance } = make(3, 3, 'longBreak');
+    expect(timer.snapshot()).toEqual({
+      phase: 'longBreak', status: 'ready', remainingMs: 600, durationMs: 600, cycleCount: 3,
+    });
+    timer.start();
+    advance(600);
+    expect(timer.snapshot()).toMatchObject({ phase: 'focus', status: 'ready', cycleCount: 0 });
+  });
+
   it('starts ready in focus at full length', () => {
     const { timer } = make();
     expect(timer.snapshot()).toEqual({
