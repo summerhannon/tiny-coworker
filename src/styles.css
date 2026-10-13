@@ -53,10 +53,10 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   gap: 12px;
   grid-template-areas: "top" "buddy" "readout" "controls";
 }
-/* top bar: appears when the pointer is over it (or it has keyboard focus), so the buddy stays the focus */
+/* top bar: faint until the pointer is over it (or it has keyboard focus), so the buddy stays the focus */
 .app-top {
   grid-area: top; width: 100%; display: flex; justify-content: space-between; align-items: center;
-  min-height: 40px; opacity: 0; transition: opacity 0.25s ease;
+  min-height: 40px; opacity: 0.35; transition: opacity 0.25s ease;
 }
 .app-top:hover, .app-top:focus-within { opacity: 1; }
 @media (hover: none) { .app-top { opacity: 1; } }
