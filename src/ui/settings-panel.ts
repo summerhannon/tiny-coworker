@@ -23,6 +23,7 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
   dialog.innerHTML = `
     <form novalidate>
       <h2 id="settings-title">Settings</h2>
+      <p class="hint">If a timer is running, new lengths start with the next session.</p>
       ${FIELDS.map(({ key, label, unit }) => `
         <label class="field">
           <span class="field-label">${label}</span>
@@ -33,6 +34,7 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
           </span>
           <span class="field-error" id="err-${key}"></span>
         </label>`).join('')}
+      <hr class="settings-divider" />
       <label class="field">
         <span class="field-label">Sound</span>
         <span class="field-input">
@@ -42,7 +44,6 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
           <button type="button" class="icon-btn" data-action="preview" aria-label="Play sound">${PLAY_ICON}</button>
         </span>
       </label>
-      <p class="hint">A running timer keeps its length. Changes apply from the next phase.</p>
       <div class="settings-actions controls">
         <button type="button" data-action="cancel">Cancel</button>
         <button type="submit" class="primary">Save</button>

@@ -137,5 +137,7 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 }
 .field-input input[aria-invalid="true"] { border-color: var(--danger); }
 .field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
-.hint { font-size: 13px; color: var(--text-2); margin: 4px 0 16px; }
+.hint { font-size: 13px; color: var(--text-2); margin: -4px 0 16px; }
+.settings-divider { border: 0; border-top: 1px solid var(--border); margin: 4px 0 16px; }
+.settings .field:last-of-type { margin-bottom: 20px; }
 .settings-actions { justify-content: flex-end; }
