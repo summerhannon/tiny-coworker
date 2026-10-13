@@ -1,6 +1,7 @@
 import './styles.css';
 import './buddy/buddy.css';
 import { SvgBuddy } from './buddy/svg-buddy';
+import { BREAK_ACTIVITIES } from './activities';
 import type { BuddyState } from './buddy/types';
 
 const buddy = new SvgBuddy();
@@ -11,6 +12,7 @@ let paused = false;
 const states: BuddyState[] = ['idle', 'working', 'break', 'wave', 'sleeping'];
 const actions: [string, () => void][] = [
   ...states.map((s): [string, () => void] => [s, () => buddy.setState(s)]),
+  ...BREAK_ACTIVITIES.map((a): [string, () => void] => [`break: ${a}`, () => buddy.setState('break', { activity: a })]),
   ['big wave', () => buddy.setState('wave', { big: true })],
   ['toggle paused', () => buddy.setPaused((paused = !paused))],
   ['say', () => buddy.say('Nice work, take five.')],

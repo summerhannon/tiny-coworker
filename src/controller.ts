@@ -1,3 +1,4 @@
+import { ACTIVITY_MOMENTS, type BreakActivity } from './activities';
 import type { Buddy, BuddyState, BuddyStateOptions } from './buddy/types';
 import { IdleWatcher } from './idle';
 import type { Moment } from './messages';
@@ -9,6 +10,7 @@ export interface ControllerDeps {
   buddy: Buddy;
   chime: { play(): void };
   pickLine: (m: Moment) => string;
+  pickActivity: () => BreakActivity;
   recordFocus: (cycleCount: number) => DayProgress;
   resetCycle: () => DayProgress;
   onProgress: (p: DayProgress) => void;
@@ -19,7 +21,8 @@ export interface ControllerDeps {
 
 export class Controller {
   private state: BuddyState = 'idle';
-  private stateBeforeSleep: BuddyState = 'idle';
+  private opts: BuddyStateOptions | undefined;
+  private beforeSleep: { state: BuddyState; opts?: BuddyStateOptions } = { state: 'idle' };
   private waveTimer?: ReturnType<typeof setTimeout>;
   private readonly idle: IdleWatcher;
 
@@ -28,7 +31,7 @@ export class Controller {
       now: d.now,
       delayMs: d.dozeMs,
       onDoze: () => this.doze(),
-      onWake: () => this.show(this.stateBeforeSleep),
+      onWake: () => this.show(this.beforeSleep.state, this.beforeSleep.opts),
     });
     d.timer.on((e) => this.handle(e));
     this.show('idle');
@@ -50,6 +53,7 @@ export class Controller {
 
   private show(s: BuddyState, opts?: BuddyStateOptions): void {
     this.state = s;
+    this.opts = opts;
     this.d.buddy.setState(s, opts);
   }
 
@@ -59,8 +63,14 @@ export class Controller {
     switch (e.type) {
       case 'started':
         buddy.setPaused(false);
-        this.show(e.phase === 'focus' ? 'working' : 'break');
-        buddy.say(pickLine(e.phase === 'focus' ? 'focusStart' : 'breakStart'));
+        if (e.phase === 'focus') {
+          this.show('working');
+          buddy.say(pickLine('focusStart'));
+        } else {
+          const activity = this.d.pickActivity();
+          this.show('break', { activity });
+          buddy.say(pickLine(ACTIVITY_MOMENTS[activity]));
+        }
         this.idle.setEligible(false);
         break;
       case 'paused':
@@ -107,7 +117,7 @@ export class Controller {
 
   private doze(): void {
     clearTimeout(this.waveTimer);
-    this.stateBeforeSleep = this.state === 'wave' ? 'idle' : this.state;
+    this.beforeSleep = this.state === 'wave' ? { state: 'idle' } : { state: this.state, opts: this.opts };
     this.show('sleeping');
   }
 }

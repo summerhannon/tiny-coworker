@@ -1,6 +1,7 @@
 import './styles.css';
 import './buddy/buddy.css';
 import { SvgBuddy } from './buddy/svg-buddy';
+import { createActivityPicker } from './activities';
 import { Chime } from './chime';
 import {
   DEMO_DOZE_MS, DEMO_DURATIONS, DOZE_MS, WAVE_MS, durationsFromSettings, type Settings,
@@ -38,6 +39,7 @@ const controller = new Controller({
   buddy,
   chime,
   pickLine: createPicker(),
+  pickActivity: createActivityPicker(),
   recordFocus: (cycleCount) => recordFocus(store, now(), cycleCount),
   resetCycle: () => resetCycle(store, now()),
   onProgress: (p) => (progress = p),

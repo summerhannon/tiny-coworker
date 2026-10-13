@@ -1,12 +1,17 @@
-export type Moment = 'focusStart' | 'focusEnd' | 'breakEnd' | 'breakStart' | 'milestone';
+export type Moment =
+  | 'focusStart' | 'focusEnd' | 'breakEnd' | 'milestone'
+  | 'coffeeBreak' | 'musicBreak' | 'meditateBreak' | 'stretchBreak';
 
 /** Placeholder copy — the designer will rewrite these in their own voice. */
 export const LINES: Record<Moment, string[]> = {
   focusStart: ["Let's do this.", 'One thing at a time.', "I'll be right here."],
-  focusEnd: ["Time's up! Coffee?", 'Nice focus. Break time.'],
+  focusEnd: ["Time's up! Take a break.", 'Nice focus. Break time.'],
   breakEnd: ["Break's over. Ready?", 'Feeling fresh?'],
-  breakStart: ['Nice work, take five.', 'Stretch those legs.'],
   milestone: ['Four down! Long break earned.', 'Look at you go.'],
+  coffeeBreak: ['Coffee time.', 'Nice work, take five.'],
+  musicBreak: ['Music break!', 'Time for a little tune.'],
+  meditateBreak: ['Time to breathe.', 'Deep breath in, and out.'],
+  stretchBreak: ['Big stretch!', 'Stretch it out.'],
 };
 
 export function createPicker(

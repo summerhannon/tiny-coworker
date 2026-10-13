@@ -25,6 +25,7 @@ function setup() {
   const c = new Controller({
     timer, buddy, chime,
     pickLine: (m) => `line:${m}`,
+    pickActivity: () => 'music',
     recordFocus: (n) => recordFocus(store, now(), n),
     resetCycle: () => resetCycle(store, now()),
     onProgress: (p) => { progress = p; },
@@ -84,7 +85,8 @@ describe('Controller', () => {
     timer.start(); advance(1000);
     timer.start();
     expect(buddy.state).toBe('break');
-    expect(buddy.said.at(-1)).toBe('line:breakStart');
+    expect(buddy.opts).toEqual({ activity: 'music' });
+    expect(buddy.said.at(-1)).toBe('line:musicBreak');
     advance(500);
     expect(buddy.state).toBe('wave');
     expect(buddy.said.at(-1)).toBe('line:breakEnd');
@@ -130,6 +132,18 @@ describe('Controller', () => {
     c.userActivity();
     expect(buddy.state).toBe('working');
     expect(buddy.paused).toBe(true);
+  });
+
+  it('wakes back into a paused break with the same activity', () => {
+    const { c, timer, buddy, advance } = setup();
+    timer.start(); advance(1000);
+    timer.start();
+    timer.pause();
+    advance(10_000);
+    expect(buddy.state).toBe('sleeping');
+    c.userActivity();
+    expect(buddy.state).toBe('break');
+    expect(buddy.opts).toEqual({ activity: 'music' });
   });
 
   it('never dozes while the timer is running', () => {

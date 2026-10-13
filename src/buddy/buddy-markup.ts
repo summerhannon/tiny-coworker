@@ -7,7 +7,7 @@
  * back layer (behind the body) or front layer (over it) depending on the state.
  */
 export const BUDDY_SVG = `
-<svg class="buddy-svg" viewBox="0 0 200 180" data-state="idle" data-paused="false" data-big="false" data-laptop="false" aria-hidden="true" focusable="false">
+<svg class="buddy-svg" viewBox="0 0 200 180" data-state="idle" data-paused="false" data-big="false" data-laptop="false" data-activity="coffee" aria-hidden="true" focusable="false">
   <ellipse class="b-shadow" cx="100" cy="166" rx="50" ry="6" fill="var(--b-shadow)"/>
   <g class="b-body-pose b-move"><g class="b-body-loop">
     <g class="b-arms-back">
@@ -51,6 +51,16 @@ export const BUDDY_SVG = `
         </g></g>
       </g></g>
     </g></g>
+    <g class="b-headphones b-move">
+      <path d="M63 98 Q63 54 100 54 Q137 54 137 98" stroke="var(--b-gear)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <rect x="55" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
+      <rect x="132" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
+    </g>
+    <g class="b-notes">
+      <text class="b-note" x="148" y="70">♪</text>
+      <text class="b-note" x="158" y="58">♫</text>
+      <text class="b-note" x="40" y="72">♪</text>
+    </g>
     <g class="b-zzz b-move">
       <text class="b-z" x="132" y="62">z</text>
       <text class="b-z" x="142" y="50">z</text>

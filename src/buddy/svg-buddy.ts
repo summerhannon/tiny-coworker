@@ -54,6 +54,7 @@ export class SvgBuddy implements Buddy {
     this.state = next;
     this.svg.setAttribute('data-state', next);
     this.svg.setAttribute('data-big', String(opts.big ?? false));
+    if (next === 'break') this.svg.setAttribute('data-activity', opts.activity ?? 'coffee');
   }
 
   setPaused(paused: boolean): void {

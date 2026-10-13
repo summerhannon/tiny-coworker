@@ -67,6 +67,7 @@
   --b-steam: #b4b2a9;
   --b-shadow: rgba(0, 0, 0, 0.12);
   --b-z: #5f5e5a;
+  --b-gear: #534ab7;
 }
 @media (prefers-color-scheme: dark) {
   .buddy-svg {
@@ -75,6 +76,7 @@
     --b-base: #444441;
     --b-steam: #888780;
     --b-shadow: rgba(0, 0, 0, 0.4);
+    --b-gear: #afa9ec;
     --b-z: #d3d1c7;
   }
 }
@@ -101,10 +103,10 @@
 .b-arms-front .b-arm { visibility: hidden; }
 [data-state="working"] .b-arms-front .b-arm,
 [data-state="sleeping"] .b-arms-front .b-arm,
-[data-state="break"] .b-arms-front .b-arm-r { visibility: visible; }
+[data-state="break"][data-activity="coffee"] .b-arms-front .b-arm-r { visibility: visible; }
 [data-state="working"] .b-arms-back .b-arm,
 [data-state="sleeping"] .b-arms-back .b-arm,
-[data-state="break"] .b-arms-back .b-arm-r { visibility: hidden; }
+[data-state="break"][data-activity="coffee"] .b-arms-back .b-arm-r { visibility: hidden; }
 
 /* ---------- defaults (idle): arms hang relaxed ---------- */
 .b-rarm-pose { transform: rotate(12.2deg); }
@@ -117,6 +119,8 @@
 
 /* ---------- expressions: alternate eyes and mouths fade in per state ---------- */
 .b-mouth-flat, .b-mouth-open, .b-mouth-o { opacity: 0; }
+.b-mouth-o { transform-box: fill-box; transform-origin: center; }
+.b-shadow { transform-origin: 100px 166px; transition: transform 0.7s ease; }
 .b-mouth, .b-mouth-flat, .b-mouth-open, .b-mouth-o, .b-eyes-happy { transition: opacity 0.25s ease; }
 .b-cheek { opacity: 0.7; transform-box: fill-box; transform-origin: center; transition: opacity 0.4s ease, transform 0.4s ease; }
 .b-eyes-open { animation: b-blink 4.5s infinite; }
@@ -147,25 +151,66 @@
 [data-state="working"][data-paused="true"] .b-mouth { opacity: 1; }
 [data-state="working"][data-paused="true"] .b-mouth-flat { opacity: 0; }
 
-/* ---------- break: hand on the handle, an occasional sip ---------- */
-[data-state="break"] .b-rarm-pose,
-[data-state="break"] .b-rfore-pose { transform: none; }
-[data-state="break"] .b-mug-pose { opacity: 1; }
+/* ---------- break (coffee): hand on the handle, an occasional sip ---------- */
+[data-state="break"][data-activity="coffee"] .b-rarm-pose,
+[data-state="break"][data-activity="coffee"] .b-rfore-pose { transform: none; }
+[data-state="break"][data-activity="coffee"] .b-mug-pose { opacity: 1; }
 /* start partway through the cycle so the first sip comes ~1 s after the mug appears */
 [data-state="break"] { --b-sip-offset: -4.2s; }
-[data-state="break"] .b-rarm-loop { animation: b-sip-upper 9s ease-in-out var(--b-sip-offset) infinite; }
-[data-state="break"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out var(--b-sip-offset) infinite; }
-[data-state="break"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"][data-activity="coffee"] .b-rarm-loop { animation: b-sip-upper 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"][data-activity="coffee"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"][data-activity="coffee"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out var(--b-sip-offset) infinite; }
 [data-state="break"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
 /* happy closed eyes while sipping (same timing as the sip) */
-[data-state="break"] .b-eyes-read { animation: b-sip-eyes-open 9s ease-in-out var(--b-sip-offset) infinite; }
-[data-state="break"] .b-eyes-happy { animation: b-sip-eyes-happy 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"][data-activity="coffee"] .b-eyes-read { animation: b-sip-eyes-open 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"][data-activity="coffee"] .b-eyes-happy { animation: b-sip-eyes-happy 9s ease-in-out var(--b-sip-offset) infinite; }
 /* paused: mug rests on the table */
 [data-state="break"][data-paused="true"] .b-rarm-loop,
 [data-state="break"][data-paused="true"] .b-rfore-loop,
 [data-state="break"][data-paused="true"] .b-mug-loop,
 [data-state="break"][data-paused="true"] .b-eyes-read,
 [data-state="break"][data-paused="true"] .b-eyes-happy { animation: none; }
+
+/* ---------- break (music): headphones, head bob, floating notes ---------- */
+.b-headphones { opacity: 0; transform: translateY(-8px); }
+.b-notes { opacity: 0; }
+.b-note { font: 600 15px system-ui, sans-serif; fill: var(--b-gear); }
+[data-state="break"][data-activity="music"] .b-headphones { opacity: 1; transform: none; }
+[data-state="break"][data-activity="music"] .b-notes { opacity: 1; }
+[data-state="break"][data-activity="music"] .b-note { animation: b-float 2.4s ease-in infinite; }
+[data-state="break"][data-activity="music"] .b-note:nth-child(2) { animation-delay: 0.8s; }
+[data-state="break"][data-activity="music"] .b-note:nth-child(3) { animation-delay: 1.6s; }
+[data-state="break"][data-activity="music"] .b-body-loop { animation: b-bob 0.5s ease-in-out infinite alternate; }
+[data-state="break"][data-activity="music"] .b-eyes-open { opacity: 0; }
+[data-state="break"][data-activity="music"] .b-eyes-happy { opacity: 1; }
+
+/* ---------- break (meditate): eyes closed, arms out, gentle float ---------- */
+[data-state="break"][data-activity="meditate"] .b-rarm-pose { transform: rotate(15.7deg); }
+[data-state="break"][data-activity="meditate"] .b-rfore-pose { transform: rotate(-59.6deg); }
+[data-state="break"][data-activity="meditate"] .b-larm-pose { transform: rotate(-15.7deg); }
+[data-state="break"][data-activity="meditate"] .b-lfore-pose { transform: rotate(59.6deg); }
+[data-state="break"][data-activity="meditate"] .b-eyes-open { opacity: 0; }
+[data-state="break"][data-activity="meditate"] .b-eyes-closed { opacity: 1; }
+[data-state="break"][data-activity="meditate"] .b-body-pose { transform: translateY(-6px); }
+[data-state="break"][data-activity="meditate"] .b-body-loop { animation: b-float-calm 5s ease-in-out infinite; }
+[data-state="break"][data-activity="meditate"] .b-shadow { transform: scale(0.85); }
+
+/* ---------- break (stretch): arms overhead, slow side lean, an occasional yawn ---------- */
+[data-state="break"][data-activity="stretch"] .b-rarm-pose { transform: rotate(-106deg); }
+[data-state="break"][data-activity="stretch"] .b-rfore-pose { transform: rotate(-46.1deg); }
+[data-state="break"][data-activity="stretch"] .b-larm-pose { transform: rotate(106deg); }
+[data-state="break"][data-activity="stretch"] .b-lfore-pose { transform: rotate(46.1deg); }
+[data-state="break"][data-activity="stretch"] .b-body-loop { animation: b-lean 4s ease-in-out infinite alternate; }
+[data-state="break"][data-activity="stretch"] .b-eyes-open { opacity: 0; }
+[data-state="break"][data-activity="stretch"] .b-eyes-happy { opacity: 1; }
+[data-state="break"][data-activity="stretch"] .b-mouth { animation: b-yawn-hide 8s ease-in-out infinite; }
+[data-state="break"][data-activity="stretch"] .b-mouth-o { animation: b-yawn 8s ease-in-out infinite; }
+
+/* paused breaks: hold the activity's pose, stop the motion */
+[data-state="break"][data-paused="true"] .b-body-loop,
+[data-state="break"][data-paused="true"] .b-note,
+[data-state="break"][data-paused="true"] .b-mouth,
+[data-state="break"][data-paused="true"] .b-mouth-o { animation: none; }
 
 /* ---------- wave: phase ended ---------- */
 [data-state="wave"] .b-rarm-pose { transform: rotate(-96.7deg); }
@@ -215,6 +260,11 @@
   44%, 56% { transform: translate(3px, -1px); }
   85%, 93% { transform: translate(-2px, -2.5px); }
 }
+@keyframes b-bob { from { transform: rotate(-3deg); } to { transform: rotate(3deg) translateY(-2px); } }
+@keyframes b-float-calm { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px) scale(1.02, 0.99); } }
+@keyframes b-lean { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+@keyframes b-yawn { 0%, 68%, 92%, 100% { opacity: 0; transform: none; } 74%, 86% { opacity: 1; transform: scale(1.5); } }
+@keyframes b-yawn-hide { 0%, 68%, 92%, 100% { opacity: 1; } 72%, 88% { opacity: 0; } }
 @keyframes b-tap { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 /* the buddy reads left to right from its own side: a slow sweep to our left, quick return */
 @keyframes b-read {
