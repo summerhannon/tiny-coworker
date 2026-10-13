@@ -96,6 +96,16 @@
 .b-eyes-open { transform-origin: 100px 100px; }
 .b-mouth { transform-origin: 100px 116px; }
 
+/* ---------- arms: drawn behind the body unless they're doing something ---------- */
+.b-arm { fill: none; stroke: var(--b-arm); stroke-width: 9; stroke-linecap: round; }
+.b-arms-front .b-arm { visibility: hidden; }
+[data-state="working"] .b-arms-front .b-arm,
+[data-state="sleeping"] .b-arms-front .b-arm,
+[data-state="break"] .b-arms-front .b-arm-r { visibility: visible; }
+[data-state="working"] .b-arms-back .b-arm,
+[data-state="sleeping"] .b-arms-back .b-arm,
+[data-state="break"] .b-arms-back .b-arm-r { visibility: hidden; }
+
 /* ---------- defaults (idle): arms hang relaxed ---------- */
 .b-rarm-pose { transform: rotate(12.2deg); }
 .b-rfore-pose { transform: rotate(17.1deg); }
@@ -171,16 +181,17 @@
 @keyframes b-breathe { 50% { transform: scale(1.025, 0.98); } }
 @keyframes b-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
 @keyframes b-tap { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+/* the buddy reads left to right from its own side: a slow sweep to our left, quick return */
 @keyframes b-read {
-  0%, 10% { transform: translateX(-2.5px); }
-  70%, 78% { transform: translateX(2.5px); }
-  88%, 100% { transform: translateX(-2.5px); }
+  0%, 10% { transform: translateX(2.5px); }
+  70%, 78% { transform: translateX(-2.5px); }
+  88%, 100% { transform: translateX(2.5px); }
 }
 /* sip: ~6 s resting, 0.8 s lift, 1.4 s sip, 0.8 s lower (9 s cycle). The mug's
    counter-rotation keeps it upright until it tilts 20° toward the mouth. */
-@keyframes b-sip-upper { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(65.1deg); } }
-@keyframes b-sip-fore { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(139.2deg); } }
-@keyframes b-sip-mug { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(-224.3deg); } }
+@keyframes b-sip-upper { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(83.3deg); } }
+@keyframes b-sip-fore { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(105.6deg); } }
+@keyframes b-sip-mug { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(-208.9deg); } }
 @keyframes b-wave { from { transform: rotate(12deg); } to { transform: rotate(-15deg); } }
 @keyframes b-hop { to { transform: translateY(-6px); } }
 @keyframes b-hop-big { to { transform: translateY(-12px) scale(1.03); } }
