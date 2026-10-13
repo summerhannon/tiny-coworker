@@ -113,7 +113,7 @@
 .b-lfore-pose { transform: rotate(-17.1deg); }
 .b-laptop { transform: translateY(24px); opacity: 0; }
 .b-mug-pose { opacity: 0; }
-.b-eyes-closed, .b-zzz { opacity: 0; }
+.b-eyes-closed, .b-eyes-happy, .b-zzz { opacity: 0; }
 .b-eyes-open { animation: b-blink 4.5s infinite; }
 .b-steam { stroke-dasharray: 4 4; animation: b-steam 1s linear infinite; }
 [data-state="idle"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
@@ -146,10 +146,15 @@
 [data-state="break"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out var(--b-sip-offset) infinite; }
 [data-state="break"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out var(--b-sip-offset) infinite; }
 [data-state="break"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
+/* happy closed eyes while sipping (same timing as the sip) */
+[data-state="break"] .b-eyes-read { animation: b-sip-eyes-open 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"] .b-eyes-happy { animation: b-sip-eyes-happy 9s ease-in-out var(--b-sip-offset) infinite; }
 /* paused: mug rests on the table */
 [data-state="break"][data-paused="true"] .b-rarm-loop,
 [data-state="break"][data-paused="true"] .b-rfore-loop,
-[data-state="break"][data-paused="true"] .b-mug-loop { animation: none; }
+[data-state="break"][data-paused="true"] .b-mug-loop,
+[data-state="break"][data-paused="true"] .b-eyes-read,
+[data-state="break"][data-paused="true"] .b-eyes-happy { animation: none; }
 
 /* ---------- wave: phase ended ---------- */
 [data-state="wave"] .b-rarm-pose { transform: rotate(-96.7deg); }
@@ -194,6 +199,8 @@
 @keyframes b-sip-upper { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(83.3deg); } }
 @keyframes b-sip-fore { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(105.6deg); } }
 @keyframes b-sip-mug { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(-208.9deg); } }
+@keyframes b-sip-eyes-open { 0%, 62%, 87%, 100% { opacity: 1; } 65%, 84% { opacity: 0; } }
+@keyframes b-sip-eyes-happy { 0%, 62%, 87%, 100% { opacity: 0; } 65%, 84% { opacity: 1; } }
 @keyframes b-wave { from { transform: rotate(12deg); } to { transform: rotate(-15deg); } }
 @keyframes b-hop { to { transform: translateY(-6px); } }
 @keyframes b-hop-big { to { transform: translateY(-12px) scale(1.03); } }

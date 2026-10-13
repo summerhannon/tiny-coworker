@@ -21,6 +21,7 @@ export const BUDDY_SVG = `
         <ellipse cx="86" cy="100" rx="4.5" ry="6" fill="var(--b-ink)"/>
         <ellipse cx="114" cy="100" rx="4.5" ry="6" fill="var(--b-ink)"/>
       </g></g>
+      <path class="b-eyes-happy" d="M81 102 q5 -6 10 0 M109 102 q5 -6 10 0" stroke="var(--b-ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       <path class="b-eyes-closed b-move" d="M81 101 q5 4 10 0 M109 101 q5 4 10 0" stroke="var(--b-ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       <circle cx="77" cy="112" r="6" fill="var(--b-cheek)" opacity=".7"/>
       <circle cx="123" cy="112" r="6" fill="var(--b-cheek)" opacity=".7"/>
