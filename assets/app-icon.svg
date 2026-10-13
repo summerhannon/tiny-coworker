@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Desk Buddy desktop app icon (source for the Tauri icon set in the desktop phase):
+       the buddy's head and shoulders rising from a cream rounded-square tile -->
+  <defs>
+    <clipPath id="tile"><rect width="1024" height="1024" rx="225"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="1024" height="1024" fill="#FAEEDA"/>
+    <rect x="143" y="225" width="737" height="983" rx="369" fill="#F0997B"/>
+    <ellipse cx="369" cy="532" rx="46" ry="61" fill="#4A1B0C"/>
+    <ellipse cx="655" cy="532" rx="46" ry="61" fill="#4A1B0C"/>
+    <circle cx="276" cy="655" r="61" fill="#ED93B1" opacity=".8"/>
+    <circle cx="748" cy="655" r="61" fill="#ED93B1" opacity=".8"/>
+    <path d="M451 665 Q512 727 573 665" stroke="#4A1B0C" stroke-width="27" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
