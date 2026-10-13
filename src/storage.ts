@@ -1,4 +1,6 @@
-import { DEFAULT_SETTINGS, SETTING_LIMITS, SOUNDS, type Settings, type SoundName } from './config';
+import {
+  BUDDY_COLORS, DEFAULT_SETTINGS, SETTING_LIMITS, SOUNDS, type BuddyColor, type Settings, type SoundName,
+} from './config';
 
 export interface StorageLike {
   getItem(key: string): string | null;
@@ -20,6 +22,7 @@ const KEYS = {
   progress: 'deskBuddy.progress',
   muted: 'deskBuddy.muted',
   sound: 'deskBuddy.sound',
+  color: 'deskBuddy.color',
 };
 
 export function memoryStore(): StorageLike {
@@ -139,4 +142,13 @@ export function loadSound(store: StorageLike): SoundName {
 
 export function saveSound(store: StorageLike, sound: SoundName): void {
   store.setItem(KEYS.sound, sound);
+}
+
+export function loadBuddyColor(store: StorageLike): BuddyColor {
+  const raw = store.getItem(KEYS.color);
+  return BUDDY_COLORS.find((c) => c === raw) ?? 'peach';
+}
+
+export function saveBuddyColor(store: StorageLike, color: BuddyColor): void {
+  store.setItem(KEYS.color, color);
 }

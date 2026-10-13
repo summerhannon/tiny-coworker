@@ -1,0 +1,37 @@
+/*
+ * Buddy color themes, set by data-color on <html>. Each theme recolors the buddy and the
+ * app accents (Start button, session dots). Peach is the default defined in styles.css
+ * and buddy.css; the others override those tokens. Accent fills keep AA contrast with
+ * their button text in both color schemes.
+ */
+[data-color="mint"] .buddy-svg {
+  --b-body: #7fd4b5; --b-arm: #2e9c77; --b-belly: #c9eedf; --b-ink: #0b3d2e; --b-cheek: #f4a9b8;
+}
+[data-color="lavender"] .buddy-svg {
+  --b-body: #b3abee; --b-arm: #6f64cf; --b-belly: #e1ddf9; --b-ink: #26215c; --b-cheek: #f2a2c0;
+  --b-mug: #f0997b; --b-mug-dark: #d85a30; --b-gear: #d85a30;
+}
+[data-color="sky"] .buddy-svg {
+  --b-body: #8ec3f0; --b-arm: #3a86cf; --b-belly: #d3e7f9; --b-ink: #0c2f52; --b-cheek: #f4a9b8;
+}
+[data-color="butter"] .buddy-svg {
+  --b-body: #f3cf6e; --b-arm: #c99a1e; --b-belly: #faeabd; --b-ink: #4a3405; --b-cheek: #f0997b;
+}
+[data-color="blush"] .buddy-svg {
+  --b-body: #f2a7c1; --b-arm: #d4618a; --b-belly: #fad6e3; --b-ink: #4b1528; --b-cheek: #f0997b;
+}
+
+[data-color="mint"] { --accent-fill: #0f6e56; --dot-fill: #1d9e75; }
+[data-color="lavender"] { --accent-fill: #534ab7; --dot-fill: #7f77dd; }
+[data-color="sky"] { --accent-fill: #185fa5; --dot-fill: #378add; }
+[data-color="butter"] { --accent-fill: #854f0b; --dot-fill: #ba7517; }
+[data-color="blush"] { --accent-fill: #993556; --dot-fill: #d4537e; }
+
+@media (prefers-color-scheme: dark) {
+  [data-color="mint"] { --accent-fill: #5dcaa5; --dot-fill: #5dcaa5; }
+  [data-color="lavender"] { --accent-fill: #afa9ec; --dot-fill: #afa9ec; }
+  [data-color="sky"] { --accent-fill: #85b7eb; --dot-fill: #85b7eb; }
+  [data-color="butter"] { --accent-fill: #ef9f27; --dot-fill: #ef9f27; }
+  [data-color="blush"] { --accent-fill: #ed93b1; --dot-fill: #ed93b1; }
+  [data-color="lavender"] .buddy-svg { --b-gear: #f0997b; }
+}

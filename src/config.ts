@@ -53,3 +53,14 @@ export const SOUND_LABELS: Record<SoundName, string> = {
   marimba: 'Marimba',
   bubble: 'Bubble',
 };
+
+export const BUDDY_COLORS = ['peach', 'mint', 'lavender', 'sky', 'butter', 'blush'] as const;
+export type BuddyColor = (typeof BUDDY_COLORS)[number];
+export const BUDDY_COLOR_LABELS: Record<BuddyColor, string> = {
+  peach: 'Peach',
+  mint: 'Mint',
+  lavender: 'Lavender',
+  sky: 'Sky',
+  butter: 'Butter',
+  blush: 'Blush',
+};

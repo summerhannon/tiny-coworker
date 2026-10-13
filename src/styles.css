@@ -141,6 +141,21 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 .field-input input[aria-invalid="true"] { border-color: var(--danger); }
 .field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
 .hint { font-size: 13px; color: var(--text-2); margin: -4px 0 16px; }
+.swatches { border: 0; padding: 0; margin: 0 0 12px; }
+.swatches legend { padding: 0; margin-bottom: 6px; }
+.swatch-row { display: flex; gap: 10px; align-items: center; }
+.swatch-preview { margin-left: auto; display: grid; }
+.swatch-preview .buddy-svg { width: 56px; height: 50px; }
+.swatch { position: relative; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; background: var(--swatch); }
+.swatch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.swatch:has(input:checked) { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text); }
+.swatch:has(input:focus-visible) { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+.swatch[data-swatch="peach"] { --swatch: #f0997b; }
+.swatch[data-swatch="mint"] { --swatch: #7fd4b5; }
+.swatch[data-swatch="lavender"] { --swatch: #b3abee; }
+.swatch[data-swatch="sky"] { --swatch: #8ec3f0; }
+.swatch[data-swatch="butter"] { --swatch: #f3cf6e; }
+.swatch[data-swatch="blush"] { --swatch: #f2a7c1; }
 .settings-divider { border: 0; border-top: 1px solid var(--border); margin: 4px 0 16px; }
 .settings .field:last-of-type { margin-bottom: 20px; }
 .settings-actions { justify-content: flex-end; }

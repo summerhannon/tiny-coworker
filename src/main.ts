@@ -1,5 +1,6 @@
 import './styles.css';
 import './buddy/buddy.css';
+import './themes.css';
 import { SvgBuddy } from './buddy/svg-buddy';
 import { createActivityPicker } from './activities';
 import { Chime } from './chime';
@@ -9,8 +10,8 @@ import {
 import { Controller } from './controller';
 import { createPicker } from './messages';
 import {
-  loadMuted, loadProgress, loadSettings, loadSound, memoryStore, recordFocus, resetCycle,
-  safeLocalStorage, saveMuted, saveSettings, saveSound,
+  loadBuddyColor, loadMuted, loadProgress, loadSettings, loadSound, memoryStore, recordFocus, resetCycle,
+  safeLocalStorage, saveBuddyColor, saveMuted, saveSettings, saveSound,
 } from './storage';
 import { Timer } from './timer';
 import { createSettingsPanel } from './ui/settings-panel';
@@ -22,6 +23,9 @@ const now = () => Date.now();
 const durationsFor = (s: Settings) => (demo ? DEMO_DURATIONS : durationsFromSettings(s));
 
 let settings = loadSettings(store);
+let buddyColor = loadBuddyColor(store);
+const showColor = (c: string) => (document.documentElement.dataset.color = c);
+showColor(buddyColor);
 let progress = loadProgress(store, now());
 
 const timer = new Timer({
@@ -56,13 +60,18 @@ const toggle = () => {
 const panel = createSettingsPanel({
   getSettings: () => settings,
   getSound: () => chime.sound,
-  onSave: (s, sound) => {
+  getColor: () => buddyColor,
+  onSave: (s, sound, color) => {
     settings = s;
     saveSettings(store, s);
     timer.setConfig(durationsFor(s), s.longBreakEvery);
     chime.sound = sound;
     saveSound(store, sound);
+    buddyColor = color;
+    saveBuddyColor(store, color);
+    showColor(color);
   },
+  onPreviewColor: showColor,
   onPreview: (sound) => chime.preview(sound),
 });
 document.body.append(panel.element);

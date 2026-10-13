@@ -1,5 +1,6 @@
 import './styles.css';
 import './buddy/buddy.css';
+import './themes.css';
 import { SvgBuddy } from './buddy/svg-buddy';
 import { BREAK_ACTIVITIES } from './activities';
 import type { BuddyState } from './buddy/types';
