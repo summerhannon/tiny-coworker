@@ -29,6 +29,11 @@ export const BUDDY_SVG = `
       <path class="b-mouth-open" d="M93 112 Q100 123 107 112 Z" fill="var(--b-ink)" stroke="var(--b-ink)" stroke-width="1.5" stroke-linejoin="round"/>
       <circle class="b-mouth-o" cx="100" cy="116" r="3.5" stroke="var(--b-ink)" stroke-width="2.5" fill="none"/>
     </g>
+    <g class="b-headphones b-move">
+      <path d="M63 98 Q63 54 100 54 Q137 54 137 98" stroke="var(--b-gear)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <rect x="55" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
+      <rect x="132" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
+    </g>
     <g class="b-arms-front">
       <path class="b-arm b-arm-l" d="M64 118 Q50.5 134.4 59 154"/>
       <path class="b-arm b-arm-r" d="M136 118 Q149.5 134.4 141 154"/>
@@ -50,11 +55,6 @@ export const BUDDY_SVG = `
         </g></g>
       </g></g>
     </g></g>
-    <g class="b-headphones b-move">
-      <path d="M63 98 Q63 54 100 54 Q137 54 137 98" stroke="var(--b-gear)" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <rect x="55" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
-      <rect x="132" y="88" width="13" height="22" rx="6" fill="var(--b-gear)"/>
-    </g>
     <g class="b-notes">
       <text class="b-note" x="148" y="70">♪</text>
       <text class="b-note" x="158" y="58">♫</text>

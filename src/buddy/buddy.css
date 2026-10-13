@@ -103,9 +103,11 @@
 .b-arms-front .b-arm { visibility: hidden; }
 [data-state="working"] .b-arms-front .b-arm,
 [data-state="sleeping"] .b-arms-front .b-arm,
+[data-state="break"][data-activity="music"] .b-arms-front .b-arm,
 [data-state="break"][data-activity="coffee"] .b-arms-front .b-arm-r { visibility: visible; }
 [data-state="working"] .b-arms-back .b-arm,
 [data-state="sleeping"] .b-arms-back .b-arm,
+[data-state="break"][data-activity="music"] .b-arms-back .b-arm,
 [data-state="break"][data-activity="coffee"] .b-arms-back .b-arm-r { visibility: hidden; }
 
 /* ---------- defaults (idle): arms hang relaxed ---------- */
@@ -176,6 +178,11 @@
 .b-note { font: 600 15px system-ui, sans-serif; fill: var(--b-gear); }
 [data-state="break"][data-activity="music"] .b-headphones { opacity: 1; transform: none; }
 [data-state="break"][data-activity="music"] .b-notes { opacity: 1; }
+/* both hands hold the ear cups */
+[data-state="break"][data-activity="music"] .b-rarm-pose { transform: rotate(-55.5deg); }
+[data-state="break"][data-activity="music"] .b-rfore-pose { transform: rotate(-136deg); }
+[data-state="break"][data-activity="music"] .b-larm-pose { transform: rotate(55.5deg); }
+[data-state="break"][data-activity="music"] .b-lfore-pose { transform: rotate(136deg); }
 [data-state="break"][data-activity="music"] .b-note { animation: b-float 2.4s ease-in infinite; }
 [data-state="break"][data-activity="music"] .b-note:nth-child(2) { animation-delay: 0.8s; }
 [data-state="break"][data-activity="music"] .b-note:nth-child(3) { animation-delay: 1.6s; }
