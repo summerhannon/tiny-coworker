@@ -9,8 +9,8 @@ import {
 import { Controller } from './controller';
 import { createPicker } from './messages';
 import {
-  loadMuted, loadProgress, loadSettings, memoryStore, recordFocus, resetCycle,
-  safeLocalStorage, saveMuted, saveSettings,
+  loadMuted, loadProgress, loadSettings, loadSound, memoryStore, recordFocus, resetCycle,
+  safeLocalStorage, saveMuted, saveSettings, saveSound,
 } from './storage';
 import { Timer } from './timer';
 import { createSettingsPanel } from './ui/settings-panel';
@@ -32,7 +32,7 @@ const timer = new Timer({
   phase: progress.cycleCount >= settings.longBreakEvery ? 'longBreak' : 'focus',
 });
 const buddy = new SvgBuddy();
-const chime = new Chime(loadMuted(store));
+const chime = new Chime(loadMuted(store), loadSound(store));
 
 const controller = new Controller({
   timer,
@@ -55,11 +55,15 @@ const toggle = () => {
 
 const panel = createSettingsPanel({
   getSettings: () => settings,
-  onSave: (s) => {
+  getSound: () => chime.sound,
+  onSave: (s, sound) => {
     settings = s;
     saveSettings(store, s);
     timer.setConfig(durationsFor(s), s.longBreakEvery);
+    chime.sound = sound;
+    saveSound(store, sound);
   },
+  onPreview: (sound) => chime.preview(sound),
 });
 document.body.append(panel.element);
 

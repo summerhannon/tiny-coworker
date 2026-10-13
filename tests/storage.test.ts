@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { DEFAULT_SETTINGS } from '../src/config';
 import {
   memoryStore, localDateKey, validateSettings, loadSettings, saveSettings,
-  loadProgress, recordFocus, resetCycle, loadMuted, saveMuted,
+  loadProgress, recordFocus, resetCycle, loadMuted, saveMuted, loadSound, saveSound,
 } from '../src/storage';
 
 const DAY1 = new Date(2026, 9, 13, 23, 58).getTime();
@@ -90,5 +90,16 @@ describe('mute', () => {
     expect(loadMuted(store)).toBe(false);
     saveMuted(store, true);
     expect(loadMuted(store)).toBe(true);
+  });
+});
+
+describe('sound', () => {
+  it('defaults to the chime, round-trips, and ignores unknown values', () => {
+    const store = memoryStore();
+    expect(loadSound(store)).toBe('chime');
+    saveSound(store, 'marimba');
+    expect(loadSound(store)).toBe('marimba');
+    store.setItem('deskBuddy.sound', 'kazoo');
+    expect(loadSound(store)).toBe('chime');
   });
 });

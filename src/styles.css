@@ -131,6 +131,10 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--input-border);
   background: var(--bg); color: var(--text); font: inherit;
 }
+.field-input select {
+  padding: 6px 8px; border-radius: 8px; border: 1px solid var(--input-border);
+  background: var(--bg); color: var(--text); font: inherit;
+}
 .field-input input[aria-invalid="true"] { border-color: var(--danger); }
 .field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
 .hint { font-size: 13px; color: var(--text-2); margin: 4px 0 16px; }

@@ -1,4 +1,4 @@
-import { DEFAULT_SETTINGS, SETTING_LIMITS, type Settings } from './config';
+import { DEFAULT_SETTINGS, SETTING_LIMITS, SOUNDS, type Settings, type SoundName } from './config';
 
 export interface StorageLike {
   getItem(key: string): string | null;
@@ -19,6 +19,7 @@ const KEYS = {
   settings: 'deskBuddy.settings',
   progress: 'deskBuddy.progress',
   muted: 'deskBuddy.muted',
+  sound: 'deskBuddy.sound',
 };
 
 export function memoryStore(): StorageLike {
@@ -129,4 +130,13 @@ export function loadMuted(store: StorageLike): boolean {
 
 export function saveMuted(store: StorageLike, muted: boolean): void {
   store.setItem(KEYS.muted, String(muted));
+}
+
+export function loadSound(store: StorageLike): SoundName {
+  const raw = store.getItem(KEYS.sound);
+  return SOUNDS.find((s) => s === raw) ?? 'chime';
+}
+
+export function saveSound(store: StorageLike, sound: SoundName): void {
+  store.setItem(KEYS.sound, sound);
 }

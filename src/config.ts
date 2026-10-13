@@ -44,3 +44,12 @@ export const PHASE_LABELS: Record<PhaseKind, string> = {
   shortBreak: 'Short break',
   longBreak: 'Long break',
 };
+
+export const SOUNDS = ['chime', 'bell', 'marimba', 'bubble'] as const;
+export type SoundName = (typeof SOUNDS)[number];
+export const SOUND_LABELS: Record<SoundName, string> = {
+  chime: 'Soft chime',
+  bell: 'Bell',
+  marimba: 'Marimba',
+  bubble: 'Bubble',
+};
