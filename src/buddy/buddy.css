@@ -140,9 +140,11 @@
 [data-state="break"] .b-rarm-pose,
 [data-state="break"] .b-rfore-pose { transform: none; }
 [data-state="break"] .b-mug-pose { opacity: 1; }
-[data-state="break"] .b-rarm-loop { animation: b-sip-upper 9s ease-in-out infinite; }
-[data-state="break"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out infinite; }
-[data-state="break"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out infinite; }
+/* start partway through the cycle so the first sip comes ~1 s after the mug appears */
+[data-state="break"] { --b-sip-offset: -4.2s; }
+[data-state="break"] .b-rarm-loop { animation: b-sip-upper 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out var(--b-sip-offset) infinite; }
+[data-state="break"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out var(--b-sip-offset) infinite; }
 [data-state="break"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
 /* paused: mug rests on the table */
 [data-state="break"][data-paused="true"] .b-rarm-loop,
