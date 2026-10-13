@@ -46,33 +46,35 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
 
       <h3 class="settings-section">Timer</h3>
       <p class="hint">If a timer is running, new lengths start with the next session.</p>
-      ${FIELDS.map(({ key, label, unit }) => `
-        <div class="row">
-          <label class="row-label" for="f-${key}">${label}</label>
-          <span class="row-control">
-            <input type="number" id="f-${key}" name="${key}" min="${SETTING_LIMITS[key].min}"
-              max="${SETTING_LIMITS[key].max}" step="1" inputmode="numeric" aria-describedby="err-${key}" />
-            <span class="unit">${unit}</span>
-          </span>
-          <span class="field-error" id="err-${key}"></span>
-        </div>`).join('')}
+      <div class="field-grid">
+        ${FIELDS.map(({ key, label, unit }) => `
+          <div class="field">
+            <label class="field-label" for="f-${key}">${label}</label>
+            <span class="field-input">
+              <input type="number" id="f-${key}" name="${key}" min="${SETTING_LIMITS[key].min}"
+                max="${SETTING_LIMITS[key].max}" step="1" inputmode="numeric" aria-describedby="err-${key}" />
+              <span class="unit">${unit}</span>
+            </span>
+            <span class="field-error" id="err-${key}"></span>
+          </div>`).join('')}
+      </div>
 
       <hr class="settings-divider" />
       <div class="settings-section-row">
         <h3 class="settings-section">Look and sound</h3>
         <span class="swatch-preview" aria-hidden="true">${BUDDY_SVG}</span>
       </div>
-      <fieldset class="row">
-        <legend class="row-label">Buddy color</legend>
-        <span class="row-control swatch-row">${radios('color', BUDDY_COLORS, BUDDY_COLOR_LABELS, 'swatch')}</span>
+      <fieldset class="field">
+        <legend class="field-label">Buddy color</legend>
+        <span class="field-input swatch-row">${radios('color', BUDDY_COLORS, BUDDY_COLOR_LABELS, 'swatch')}</span>
       </fieldset>
-      <fieldset class="row">
-        <legend class="row-label">Appearance</legend>
-        <span class="row-control segmented">${radios('appearance', APPEARANCES, APPEARANCE_LABELS, 'segment')}</span>
+      <fieldset class="field">
+        <legend class="field-label">Appearance</legend>
+        <span class="field-input segmented">${radios('appearance', APPEARANCES, APPEARANCE_LABELS, 'segment')}</span>
       </fieldset>
-      <div class="row">
-        <label class="row-label" for="f-sound">Sound</label>
-        <span class="row-control">
+      <div class="field">
+        <label class="field-label" for="f-sound">Sound</label>
+        <span class="field-input">
           <select id="f-sound" name="sound">
             ${SOUNDS.map((s) => `<option value="${s}">${SOUND_LABELS[s]}</option>`).join('')}
           </select>
