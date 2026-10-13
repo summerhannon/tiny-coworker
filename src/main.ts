@@ -28,6 +28,7 @@ const timer = new Timer({
   durations: durationsFor(settings),
   longBreakEvery: settings.longBreakEvery,
   cycleCount: progress.cycleCount,
+  phase: progress.cycleCount >= settings.longBreakEvery ? 'longBreak' : 'focus',
 });
 const buddy = new SvgBuddy();
 const chime = new Chime(loadMuted(store));
@@ -95,8 +96,8 @@ function frame(): void {
 }
 
 const loop = () => {
-  frame();
   requestAnimationFrame(loop);
+  frame();
 };
 requestAnimationFrame(loop);
 // rAF pauses in background tabs; this keeps phase ends (and the chime) firing there.
