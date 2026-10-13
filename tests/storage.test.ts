@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { DEFAULT_SETTINGS } from '../src/config';
 import {
   memoryStore, localDateKey, validateSettings, loadSettings, saveSettings,
-  loadProgress, recordFocus, resetCycle, loadMuted, saveMuted, loadSound, saveSound,
+  loadProgress, recordFocus, resetCycle, loadMuted, saveMuted, loadSound, saveSound, loadBuddyColor, saveBuddyColor, loadAppearance, saveAppearance,
 } from '../src/storage';
 
 const DAY1 = new Date(2026, 9, 13, 23, 58).getTime();
@@ -101,5 +101,27 @@ describe('sound', () => {
     expect(loadSound(store)).toBe('marimba');
     store.setItem('deskBuddy.sound', 'kazoo');
     expect(loadSound(store)).toBe('chime');
+  });
+});
+
+describe('buddy color', () => {
+  it('defaults to peach, round-trips, and ignores unknown values', () => {
+    const store = memoryStore();
+    expect(loadBuddyColor(store)).toBe('peach');
+    saveBuddyColor(store, 'mint');
+    expect(loadBuddyColor(store)).toBe('mint');
+    store.setItem('deskBuddy.color', 'plaid');
+    expect(loadBuddyColor(store)).toBe('peach');
+  });
+});
+
+describe('appearance', () => {
+  it('defaults to auto, round-trips, and ignores unknown values', () => {
+    const store = memoryStore();
+    expect(loadAppearance(store)).toBe('auto');
+    saveAppearance(store, 'dark');
+    expect(loadAppearance(store)).toBe('dark');
+    store.setItem('deskBuddy.appearance', 'sepia');
+    expect(loadAppearance(store)).toBe('auto');
   });
 });
