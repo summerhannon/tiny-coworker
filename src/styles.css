@@ -72,7 +72,10 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 .buddy-slot { grid-area: buddy; padding-top: 40px; }
 .readout { grid-area: readout; display: grid; justify-items: center; gap: 2px; }
 .phase-label { font-size: 13px; color: var(--text-2); }
-.time { font-size: 36px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1; }
+.time {
+  font-family: Inter, system-ui, sans-serif; font-size: 36px; font-weight: 200;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1;
+}
 .dots-row { margin-top: 6px; }
 .dots-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
 .dots { display: flex; gap: 6px; }
