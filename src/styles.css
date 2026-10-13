@@ -76,7 +76,9 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   font-family: Inter, system-ui, sans-serif; font-size: 36px; font-weight: 200;
   font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1;
 }
-.dots-row { margin-top: 6px; }
+.readout { margin-top: 8px; }
+.dots-row { margin-top: 10px; }
+.app .controls { margin-top: 14px; }
 .dots-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
 .dots { display: flex; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--dot-empty); }
@@ -96,7 +98,9 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   }
   .app-top { position: absolute; top: 0; right: 0; width: auto; min-height: 0; opacity: 1; }
   .app-name { display: none; }
-  .readout { justify-items: start; }
+  .readout { justify-items: start; margin-top: 0; }
+  .dots-row { margin-top: 4px; }
+  .app .controls { margin-top: 0; }
   .phase-label { font-size: 11px; }
   .buddy-slot { padding-top: 28px; }
   .buddy { --mouth-drop: 30px; }
