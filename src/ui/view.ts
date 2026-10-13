@@ -21,7 +21,7 @@ export interface ViewModel {
 const MARKUP = `
 <main class="app">
   <div class="app-top">
-    <span class="phase-label"></span>
+    <span class="app-name">Desk Buddy</span>
     <div class="icon-row">
       <button class="icon-btn" data-action="settings" aria-label="Settings">${SETTINGS_ICON}</button>
       <button class="icon-btn" data-action="mute" aria-label="Mute chime" aria-pressed="false">${SOUND_ICON}</button>
@@ -29,9 +29,10 @@ const MARKUP = `
   </div>
   <div class="buddy-slot"></div>
   <div class="readout">
+    <span class="phase-label"></span>
     <div class="time" role="timer"></div>
     <div class="dots-row"><span class="dots" aria-hidden="true"></span><span class="today"></span><span class="sr-only cycle-text"></span></div>
-  <span class="sr-only phase-live" aria-live="polite"></span>
+    <span class="sr-only phase-live" aria-live="polite"></span>
   </div>
   <div class="controls">
     <button class="primary" data-action="toggle"></button>
