@@ -5,10 +5,11 @@
   --text: #1f1e1c;
   --text-2: #6b6a65;
   --border: rgba(0, 0, 0, 0.12);
+  --input-border: rgba(0, 0, 0, 0.45);
   --accent-fill: #993c1d;
   --accent-ink: #ffffff;
   --dot-fill: #d85a30;
-  --dot-empty: rgba(0, 0, 0, 0.25);
+  --dot-empty: rgba(0, 0, 0, 0.45);
   --danger: #a32d2d;
   --focus-ring: #378add;
   font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
@@ -20,10 +21,11 @@
     --text: #f1efe8;
     --text-2: #b4b2a9;
     --border: rgba(255, 255, 255, 0.14);
+    --input-border: rgba(255, 255, 255, 0.45);
     --accent-fill: #f0997b;
     --accent-ink: #2c2c2a;
     --dot-fill: #f0997b;
-    --dot-empty: rgba(255, 255, 255, 0.3);
+    --dot-empty: rgba(255, 255, 255, 0.45);
     --danger: #f09595;
   }
 }
@@ -86,7 +88,9 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   .buddy-slot { padding-top: 28px; }
   .buddy { --mouth-drop: 30px; }
   .buddy-svg { width: 100px; height: 90px; }
-  .bubble { bottom: calc(100% - 28px); max-width: 160px; }
+  .app .bubble { bottom: calc(100% - 28px); max-width: 160px; left: 0; transform: none; }
+  .app .bubble-box { transform-origin: 50px calc(100% + var(--mouth-drop)); }
+  .app .bubble-box::after { left: 50px; }
   .bubble-box { font-size: 12px; padding: 4px 9px; }
   .time { font-size: 28px; }
   .dot { width: 7px; height: 7px; border-width: 1px; }
@@ -107,7 +111,7 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 .field { display: grid; gap: 4px; margin-bottom: 12px; font-size: 14px; }
 .field-input { display: flex; align-items: center; gap: 8px; color: var(--text-2); }
 .field-input input {
-  width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border);
+  width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--input-border);
   background: var(--bg); color: var(--text); font: inherit;
 }
 .field-input input[aria-invalid="true"] { border-color: var(--danger); }
