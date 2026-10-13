@@ -71,6 +71,12 @@ describe('progress', () => {
     recordFocus(store, DAY1, 3);
     expect(recordFocus(store, DAY2, 4)).toEqual({ date: '2026-10-14', todayCount: 1, cycleCount: 1 });
   });
+  it('treats corrupt same-day progress as missing', () => {
+    const store = memoryStore();
+    store.setItem('deskBuddy.progress', JSON.stringify({ date: '2026-10-13' }));
+    expect(loadProgress(store, DAY1)).toEqual({ date: '2026-10-13', todayCount: 0, cycleCount: 0 });
+    expect(recordFocus(store, DAY1, 1)).toEqual({ date: '2026-10-13', todayCount: 1, cycleCount: 1 });
+  });
   it('resets the cycle but keeps the day total', () => {
     const store = memoryStore();
     recordFocus(store, DAY1, 4);

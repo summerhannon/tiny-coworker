@@ -89,10 +89,15 @@ export function saveSettings(store: StorageLike, s: Settings): void {
   store.setItem(KEYS.settings, JSON.stringify(s));
 }
 
+function isCount(v: unknown): v is number {
+  return typeof v === 'number' && Number.isInteger(v) && v >= 0;
+}
+
 function readProgress(store: StorageLike): DayProgress | null {
-  const raw = readJson(store, KEYS.progress) as DayProgress | null;
+  const raw = readJson(store, KEYS.progress) as Partial<DayProgress> | null;
   if (!raw || typeof raw.date !== 'string') return null;
-  return raw;
+  if (!isCount(raw.todayCount) || !isCount(raw.cycleCount)) return null;
+  return { date: raw.date, todayCount: raw.todayCount, cycleCount: raw.cycleCount };
 }
 
 function writeProgress(store: StorageLike, p: DayProgress): DayProgress {
