@@ -1,0 +1,146 @@
+:root {
+  color-scheme: light dark;
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --text: #1f1e1c;
+  --text-2: #6b6a65;
+  --border: rgba(0, 0, 0, 0.12);
+  --input-border: rgba(0, 0, 0, 0.45);
+  --accent-fill: #993c1d;
+  --accent-ink: #ffffff;
+  --dot-fill: #d85a30;
+  --dot-empty: rgba(0, 0, 0, 0.45);
+  --danger: #a32d2d;
+  --focus-ring: #378add;
+  font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1b19;
+    --surface: #262522;
+    --text: #f1efe8;
+    --text-2: #b4b2a9;
+    --border: rgba(255, 255, 255, 0.14);
+    --input-border: rgba(255, 255, 255, 0.45);
+    --accent-fill: #f0997b;
+    --accent-ink: #2c2c2a;
+    --dot-fill: #f0997b;
+    --dot-empty: rgba(255, 255, 255, 0.45);
+    --danger: #f09595;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+#app { min-height: 100%; display: grid; place-items: center; gap: 24px; padding: 16px; }
+button { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.controls button {
+  padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); cursor: pointer; font-size: 14px;
+}
+button.primary { background: var(--accent-fill); color: var(--accent-ink); border-color: transparent; min-width: 96px; }
+
+/* ---------- full layout ---------- */
+.app {
+  width: min(100%, 360px);
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  grid-template-areas: "top" "buddy" "readout" "controls";
+}
+/* top bar: faint until the pointer is over it (or it has keyboard focus), so the buddy stays the focus */
+.app-top {
+  grid-area: top; width: 100%; display: flex; justify-content: space-between; align-items: center;
+  min-height: 40px; opacity: 0.35; transition: opacity 0.25s ease;
+}
+.app-top:hover, .app-top:focus-within { opacity: 1; }
+@media (hover: none) { .app-top { opacity: 1; } }
+.app-name { font-size: 13px; color: var(--text-2); }
+.icon-row { display: flex; gap: 4px; }
+.icon-btn {
+  background: none; border: 0; color: var(--text-2); padding: 6px; border-radius: 8px;
+  cursor: pointer; display: grid; place-items: center;
+}
+.icon-btn:hover { color: var(--text); background: var(--border); }
+.icon-btn[aria-pressed="true"] .snd-wave,
+.icon-btn:not([aria-pressed="true"]) .snd-x { display: none; }
+.buddy-slot { grid-area: buddy; padding-top: 40px; }
+.readout { grid-area: readout; display: grid; justify-items: center; gap: 2px; }
+.phase-label { font-size: 13px; color: var(--text-2); }
+.time {
+  font-family: Inter, system-ui, sans-serif; font-size: 36px; font-weight: 200;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1;
+}
+.readout { margin-top: 8px; }
+.dots-row { margin-top: 10px; }
+.app .controls { margin-top: 14px; }
+.dots-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
+.dots { display: flex; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--dot-empty); }
+.dot.filled { background: var(--dot-fill); border-color: var(--dot-fill); }
+.app .controls { grid-area: controls; }
+
+/* ---------- compact layout (small windows / future desktop app) ---------- */
+@media (max-width: 360px), (max-height: 420px) {
+  #app { padding: 8px; }
+  .app {
+    position: relative;
+    grid-template-areas: "buddy readout" "controls controls";
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    align-items: center;
+    justify-items: start;
+  }
+  .app-top { position: absolute; top: 0; right: 0; width: auto; min-height: 0; opacity: 1; }
+  .app-name { display: none; }
+  .readout { justify-items: start; margin-top: 0; }
+  .dots-row { margin-top: 4px; }
+  .app .controls { margin-top: 0; }
+  .phase-label { font-size: 11px; }
+  .buddy-slot { padding-top: 28px; }
+  .buddy { --mouth-drop: 30px; }
+  .buddy-svg { width: 100px; height: 90px; }
+  .app .bubble { bottom: calc(100% - 28px); max-width: 160px; left: 0; transform: none; }
+  .app .bubble-box { transform-origin: 50px calc(100% + var(--mouth-drop)); }
+  .app .bubble-box::after { left: 50px; }
+  .bubble-box { font-size: 12px; padding: 4px 9px; }
+  .time { font-size: 24px; }
+  .dot { width: 7px; height: 7px; border-width: 1px; }
+  .app .controls, .icon-row { opacity: 0; transition: opacity 0.2s; }
+  .app:hover .controls, .app:focus-within .controls,
+  .app:hover .icon-row, .app:focus-within .icon-row { opacity: 1; }
+  .app .controls button { padding: 4px 10px; font-size: 12px; }
+  .app button.primary { min-width: 64px; }
+}
+
+/* ---------- settings dialog ---------- */
+.settings {
+  border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+  background: var(--surface); color: var(--text); width: min(92vw, 320px);
+}
+.settings::backdrop { background: rgba(0, 0, 0, 0.35); }
+.settings h2 { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
+.field { display: grid; gap: 4px; margin-bottom: 12px; font-size: 14px; }
+.field-input { display: flex; align-items: center; gap: 8px; color: var(--text-2); }
+.field-input input {
+  width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--input-border);
+  background: var(--bg); color: var(--text); font: inherit;
+}
+.field-input select {
+  appearance: none; -webkit-appearance: none;
+  padding: 6px 30px 6px 10px; border-radius: 8px; border: 1px solid var(--input-border);
+  color: var(--text); font: inherit; cursor: pointer;
+  /* our own chevron, inset from the edge (mid-gray reads in both themes) */
+  background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23888780' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E") no-repeat right 10px center;
+}
+.field-input input[aria-invalid="true"] { border-color: var(--danger); }
+.field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
+.hint { font-size: 13px; color: var(--text-2); margin: -4px 0 16px; }
+.settings-divider { border: 0; border-top: 1px solid var(--border); margin: 4px 0 16px; }
+.settings .field:last-of-type { margin-bottom: 20px; }
+.settings-actions { justify-content: flex-end; }
