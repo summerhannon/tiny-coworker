@@ -2,7 +2,7 @@
  * Buddy color themes, set by data-color on <html>. Each theme recolors the buddy and the
  * app accents (Start button, session dots). Peach is the default defined in styles.css
  * and buddy.css; the others override those tokens. Accent fills keep AA contrast with
- * their button text in both color schemes.
+ * their button text in both color schemes (data-scheme, set by the Appearance setting).
  */
 [data-color="mint"] .buddy-svg {
   --b-body: #7fd4b5; --b-arm: #2e9c77; --b-belly: #c9eedf; --b-ink: #0b3d2e; --b-cheek: #f4a9b8;
@@ -27,11 +27,9 @@
 [data-color="butter"] { --accent-fill: #854f0b; --dot-fill: #ba7517; }
 [data-color="blush"] { --accent-fill: #993556; --dot-fill: #d4537e; }
 
-@media (prefers-color-scheme: dark) {
-  [data-color="mint"] { --accent-fill: #5dcaa5; --dot-fill: #5dcaa5; }
-  [data-color="lavender"] { --accent-fill: #afa9ec; --dot-fill: #afa9ec; }
-  [data-color="sky"] { --accent-fill: #85b7eb; --dot-fill: #85b7eb; }
-  [data-color="butter"] { --accent-fill: #ef9f27; --dot-fill: #ef9f27; }
-  [data-color="blush"] { --accent-fill: #ed93b1; --dot-fill: #ed93b1; }
-  [data-color="lavender"] .buddy-svg { --b-gear: #f0997b; }
-}
+[data-scheme="dark"][data-color="mint"] { --accent-fill: #5dcaa5; --dot-fill: #5dcaa5; }
+[data-scheme="dark"][data-color="lavender"] { --accent-fill: #afa9ec; --dot-fill: #afa9ec; }
+[data-scheme="dark"][data-color="sky"] { --accent-fill: #85b7eb; --dot-fill: #85b7eb; }
+[data-scheme="dark"][data-color="butter"] { --accent-fill: #ef9f27; --dot-fill: #ef9f27; }
+[data-scheme="dark"][data-color="blush"] { --accent-fill: #ed93b1; --dot-fill: #ed93b1; }
+[data-scheme="dark"][data-color="lavender"] .buddy-svg { --b-gear: #f0997b; }

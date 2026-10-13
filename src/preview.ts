@@ -3,8 +3,10 @@ import './buddy/buddy.css';
 import './themes.css';
 import { SvgBuddy } from './buddy/svg-buddy';
 import { BREAK_ACTIVITIES } from './activities';
+import { applyAppearance } from './appearance';
 import type { BuddyState } from './buddy/types';
 
+applyAppearance('auto');
 const buddy = new SvgBuddy();
 const controls = document.createElement('div');
 controls.className = 'controls';

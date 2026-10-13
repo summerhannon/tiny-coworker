@@ -64,3 +64,7 @@ export const BUDDY_COLOR_LABELS: Record<BuddyColor, string> = {
   butter: 'Butter',
   blush: 'Blush',
 };
+
+export const APPEARANCES = ['auto', 'light', 'dark'] as const;
+export type Appearance = (typeof APPEARANCES)[number];
+export const APPEARANCE_LABELS: Record<Appearance, string> = { auto: 'Auto', light: 'Light', dark: 'Dark' };

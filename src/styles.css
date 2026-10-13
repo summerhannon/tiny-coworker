@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #faf9f5;
   --surface: #ffffff;
   --text: #1f1e1c;
@@ -14,20 +14,19 @@
   --focus-ring: #378add;
   font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1b19;
-    --surface: #262522;
-    --text: #f1efe8;
-    --text-2: #b4b2a9;
-    --border: rgba(255, 255, 255, 0.14);
-    --input-border: rgba(255, 255, 255, 0.45);
-    --accent-fill: #f0997b;
-    --accent-ink: #2c2c2a;
-    --dot-fill: #f0997b;
-    --dot-empty: rgba(255, 255, 255, 0.45);
-    --danger: #f09595;
-  }
+:root[data-scheme="dark"] {
+  color-scheme: dark;
+  --bg: #1c1b19;
+  --surface: #262522;
+  --text: #f1efe8;
+  --text-2: #b4b2a9;
+  --border: rgba(255, 255, 255, 0.14);
+  --input-border: rgba(255, 255, 255, 0.45);
+  --accent-fill: #f0997b;
+  --accent-ink: #2c2c2a;
+  --dot-fill: #f0997b;
+  --dot-empty: rgba(255, 255, 255, 0.45);
+  --danger: #f09595;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
@@ -121,32 +120,44 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 /* ---------- settings dialog ---------- */
 .settings {
   border: 1px solid var(--border); border-radius: 16px; padding: 20px;
-  background: var(--surface); color: var(--text); width: min(92vw, 320px);
+  background: var(--surface); color: var(--text); width: min(92vw, 360px);
 }
 .settings::backdrop { background: rgba(0, 0, 0, 0.35); }
-.settings h2 { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
-.field { display: grid; gap: 4px; margin-bottom: 12px; font-size: 14px; }
-.field-input { display: flex; align-items: center; gap: 8px; color: var(--text-2); }
-.field-input input {
-  width: 72px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--input-border);
-  background: var(--bg); color: var(--text); font: inherit;
+.settings h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+.settings-section { margin: 12px 0 6px; font-size: 13px; font-weight: 600; color: var(--text-2); }
+.settings-section-row { display: flex; align-items: center; justify-content: space-between; }
+.hint { font-size: 12px; color: var(--text-2); margin: -2px 0 8px; }
+
+/* one setting per line: label left, control right; an error, if any, wraps below */
+.row {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px;
+  border: 0; padding: 0; margin: 0 0 8px; min-width: 0; font-size: 14px;
 }
-.field-input select {
+.row > legend { float: left; padding: 0; }
+.row-label { color: var(--text); }
+.row-control { display: flex; align-items: center; gap: 8px; color: var(--text-2); }
+.unit { width: 52px; font-size: 13px; }
+.field-error { grid-column: 1 / -1; justify-self: end; color: var(--danger); font-size: 12px; }
+.field-error:empty { display: none; }
+.row input[type="number"] {
+  width: 60px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--input-border);
+  background: var(--bg); color: var(--text); font: inherit; text-align: right;
+}
+.row input[aria-invalid="true"] { border-color: var(--danger); }
+.row select {
   appearance: none; -webkit-appearance: none;
-  padding: 6px 30px 6px 10px; border-radius: 8px; border: 1px solid var(--input-border);
+  padding: 5px 30px 5px 10px; border-radius: 8px; border: 1px solid var(--input-border);
   color: var(--text); font: inherit; cursor: pointer;
   /* our own chevron, inset from the edge (mid-gray reads in both themes) */
   background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23888780' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E") no-repeat right 10px center;
 }
-.field-input input[aria-invalid="true"] { border-color: var(--danger); }
-.field-error { color: var(--danger); font-size: 13px; min-height: 1em; }
-.hint { font-size: 13px; color: var(--text-2); margin: -4px 0 16px; }
-.swatches { border: 0; padding: 0; margin: 0 0 12px; }
-.swatches legend { padding: 0; margin-bottom: 6px; }
-.swatch-row { display: flex; gap: 10px; align-items: center; }
-.swatch-preview { margin-left: auto; display: grid; }
-.swatch-preview .buddy-svg { width: 56px; height: 50px; }
-.swatch { position: relative; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; background: var(--swatch); }
+.row .icon-btn { padding: 4px; }
+
+/* color swatches */
+.swatch-row { gap: 8px; }
+.swatch-preview { display: grid; margin-top: 4px; }
+.swatch-preview .buddy-svg { width: 44px; height: 40px; }
+.swatch { position: relative; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; background: var(--swatch); }
 .swatch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
 .swatch:has(input:checked) { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text); }
 .swatch:has(input:focus-visible) { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
@@ -156,6 +167,15 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 .swatch[data-swatch="sky"] { --swatch: #8ec3f0; }
 .swatch[data-swatch="butter"] { --swatch: #f3cf6e; }
 .swatch[data-swatch="blush"] { --swatch: #f2a7c1; }
-.settings-divider { border: 0; border-top: 1px solid var(--border); margin: 4px 0 16px; }
-.settings .field:last-of-type { margin-bottom: 20px; }
+
+/* appearance: three-way segmented control */
+.segmented { gap: 0; border: 1px solid var(--input-border); border-radius: 8px; padding: 2px; }
+.segment { position: relative; cursor: pointer; }
+.segment input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.segment-label { display: block; padding: 3px 10px; border-radius: 6px; font-size: 13px; color: var(--text-2); }
+.segment:has(input:checked) .segment-label { background: var(--text); color: var(--bg); }
+.segment:has(input:focus-visible) .segment-label { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+
+.settings-divider { border: 0; border-top: 1px solid var(--border); margin: 12px 0 0; }
+.settings-actions { margin-top: 16px; }
 .settings-actions { justify-content: flex-end; }

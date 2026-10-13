@@ -3,6 +3,7 @@ import './buddy/buddy.css';
 import './themes.css';
 import { SvgBuddy } from './buddy/svg-buddy';
 import { createActivityPicker } from './activities';
+import { applyAppearance } from './appearance';
 import { Chime } from './chime';
 import {
   DEMO_DOZE_MS, DEMO_DURATIONS, DOZE_MS, WAVE_MS, durationsFromSettings, type Settings,
@@ -10,11 +11,11 @@ import {
 import { Controller } from './controller';
 import { createPicker } from './messages';
 import {
-  loadBuddyColor, loadMuted, loadProgress, loadSettings, loadSound, memoryStore, recordFocus, resetCycle,
-  safeLocalStorage, saveBuddyColor, saveMuted, saveSettings, saveSound,
+  loadAppearance, loadBuddyColor, loadMuted, loadProgress, loadSettings, loadSound, memoryStore, recordFocus,
+  resetCycle, safeLocalStorage, saveAppearance, saveBuddyColor, saveMuted, saveSettings, saveSound,
 } from './storage';
 import { Timer } from './timer';
-import { createSettingsPanel } from './ui/settings-panel';
+import { createSettingsPanel, type Prefs } from './ui/settings-panel';
 import { createView } from './ui/view';
 
 const demo = new URLSearchParams(location.search).has('demo');
@@ -23,9 +24,12 @@ const now = () => Date.now();
 const durationsFor = (s: Settings) => (demo ? DEMO_DURATIONS : durationsFromSettings(s));
 
 let settings = loadSettings(store);
-let buddyColor = loadBuddyColor(store);
-const showColor = (c: string) => (document.documentElement.dataset.color = c);
-showColor(buddyColor);
+let prefs: Prefs = { color: loadBuddyColor(store), appearance: loadAppearance(store), sound: loadSound(store) };
+const showLook = (p: Prefs) => {
+  document.documentElement.dataset.color = p.color;
+  applyAppearance(p.appearance);
+};
+showLook(prefs);
 let progress = loadProgress(store, now());
 
 const timer = new Timer({
@@ -36,7 +40,7 @@ const timer = new Timer({
   phase: progress.cycleCount >= settings.longBreakEvery ? 'longBreak' : 'focus',
 });
 const buddy = new SvgBuddy();
-const chime = new Chime(loadMuted(store), loadSound(store));
+const chime = new Chime(loadMuted(store), prefs.sound);
 
 const controller = new Controller({
   timer,
@@ -59,20 +63,20 @@ const toggle = () => {
 
 const panel = createSettingsPanel({
   getSettings: () => settings,
-  getSound: () => chime.sound,
-  getColor: () => buddyColor,
-  onSave: (s, sound, color) => {
+  getPrefs: () => prefs,
+  onSave: (s, p) => {
     settings = s;
     saveSettings(store, s);
     timer.setConfig(durationsFor(s), s.longBreakEvery);
-    chime.sound = sound;
-    saveSound(store, sound);
-    buddyColor = color;
-    saveBuddyColor(store, color);
-    showColor(color);
+    prefs = p;
+    saveBuddyColor(store, p.color);
+    saveAppearance(store, p.appearance);
+    saveSound(store, p.sound);
+    chime.sound = p.sound;
+    showLook(p);
   },
-  onPreviewColor: showColor,
-  onPreview: (sound) => chime.preview(sound),
+  onPreviewSound: (sound) => chime.preview(sound),
+  onPreviewLook: showLook,
 });
 document.body.append(panel.element);
 

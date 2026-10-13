@@ -69,16 +69,14 @@
   --b-z: #5f5e5a;
   --b-gear: #534ab7;
 }
-@media (prefers-color-scheme: dark) {
-  .buddy-svg {
-    --b-lid: #5f5e5a;
-    --b-logo: #888780;
-    --b-base: #444441;
-    --b-steam: #888780;
-    --b-shadow: rgba(0, 0, 0, 0.4);
-    --b-gear: #afa9ec;
-    --b-z: #d3d1c7;
-  }
+[data-scheme="dark"] .buddy-svg {
+  --b-lid: #5f5e5a;
+  --b-logo: #888780;
+  --b-base: #444441;
+  --b-steam: #888780;
+  --b-shadow: rgba(0, 0, 0, 0.4);
+  --b-gear: #afa9ec;
+  --b-z: #d3d1c7;
 }
 .buddy-svg * { transform-box: view-box; }
 .buddy-svg .b-move {
