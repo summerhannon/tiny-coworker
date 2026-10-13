@@ -86,53 +86,75 @@
 .b-z:nth-child(2) { font-size: 15px; }
 .b-z:nth-child(3) { font-size: 17px; }
 
-/* ---------- pivots ---------- */
+/* ---------- pivots (shoulder, elbow, hand) ---------- */
 .b-body-pose, .b-body-loop { transform-origin: 100px 160px; }
-.b-larm-pose { transform-origin: 66px 112px; }
-.b-rarm-pose, .b-rarm-loop { transform-origin: 134px 112px; }
+.b-rarm-pose, .b-rarm-loop { transform-origin: 136px 118px; }
+.b-rfore-pose, .b-rfore-loop { transform-origin: 147.4px 133.2px; }
+.b-larm-pose, .b-larm-loop { transform-origin: 64px 118px; }
+.b-lfore-pose, .b-lfore-loop { transform-origin: 52.6px 133.2px; }
+.b-mug-pose, .b-mug-loop { transform-origin: 154px 151px; }
 .b-eyes-open { transform-origin: 100px 100px; }
 .b-mouth { transform-origin: 100px 116px; }
-.b-mug-loop { transform-origin: 155px 160px; }
 
-/* ---------- defaults (idle) ---------- */
+/* ---------- defaults (idle): arms hang relaxed ---------- */
+.b-rarm-pose { transform: rotate(12.2deg); }
+.b-rfore-pose { transform: rotate(17.1deg); }
+.b-larm-pose { transform: rotate(-12.2deg); }
+.b-lfore-pose { transform: rotate(-17.1deg); }
 .b-laptop { transform: translateY(24px); opacity: 0; }
-.b-mug-pose { transform: translateY(6px); opacity: 0; }
+.b-mug-pose { opacity: 0; }
 .b-eyes-closed, .b-zzz { opacity: 0; }
 .b-eyes-open { animation: b-blink 4.5s infinite; }
 .b-steam { stroke-dasharray: 4 4; animation: b-steam 1s linear infinite; }
 [data-state="idle"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
 
-/* ---------- working: behind the laptop ---------- */
+/* ---------- working: behind the laptop, typing and reading ---------- */
 [data-state="working"] .b-laptop,
 [data-state="sleeping"][data-laptop="true"] .b-laptop { transform: none; opacity: 1; }
-[data-state="working"] .b-larm-pose { transform: rotate(-40deg); }
-[data-state="working"] .b-rarm-pose { transform: rotate(40deg); }
+[data-state="working"] .b-rarm-pose { transform: rotate(9.6deg); }
+[data-state="working"] .b-rfore-pose { transform: rotate(91.1deg); }
+[data-state="working"] .b-larm-pose { transform: rotate(-9.6deg); }
+[data-state="working"] .b-lfore-pose { transform: rotate(-91.1deg); }
 [data-state="working"] .b-face { transform: translateY(5px); }
-[data-state="working"] .b-body-loop { animation: b-type 0.36s steps(2) infinite; }
-/* paused: stop typing, look up */
+[data-state="working"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
+[data-state="working"] .b-rfore-loop { animation: b-tap 0.32s ease-in-out infinite alternate; }
+[data-state="working"] .b-lfore-loop { animation: b-tap 0.32s ease-in-out -0.16s infinite alternate; }
+[data-state="working"] .b-eyes-read { animation: b-read 3.2s ease-in-out infinite; }
+/* paused: hands still, look up from the screen */
 [data-state="working"][data-paused="true"] .b-face { transform: none; }
-[data-state="working"][data-paused="true"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
+[data-state="working"][data-paused="true"] .b-rfore-loop,
+[data-state="working"][data-paused="true"] .b-lfore-loop,
+[data-state="working"][data-paused="true"] .b-eyes-read { animation: none; }
 
-/* ---------- break: sipping coffee ---------- */
-[data-state="break"] .b-mug-pose { transform: none; opacity: 1; }
-[data-state="break"] .b-mug-loop { animation: b-sip-mug 3.2s ease-in-out infinite; }
-[data-state="break"] .b-rarm-loop { animation: b-sip-arm 3.2s ease-in-out infinite; }
+/* ---------- break: hand on the handle, an occasional sip ---------- */
+[data-state="break"] .b-rarm-pose,
+[data-state="break"] .b-rfore-pose { transform: none; }
+[data-state="break"] .b-mug-pose { opacity: 1; }
+[data-state="break"] .b-rarm-loop { animation: b-sip-upper 9s ease-in-out infinite; }
+[data-state="break"] .b-rfore-loop { animation: b-sip-fore 9s ease-in-out infinite; }
+[data-state="break"] .b-mug-loop { animation: b-sip-mug 9s ease-in-out infinite; }
 [data-state="break"] .b-body-loop { animation: b-breathe 3.2s ease-in-out infinite; }
 /* paused: mug rests on the table */
-[data-state="break"][data-paused="true"] .b-mug-loop,
-[data-state="break"][data-paused="true"] .b-rarm-loop { animation: none; }
+[data-state="break"][data-paused="true"] .b-rarm-loop,
+[data-state="break"][data-paused="true"] .b-rfore-loop,
+[data-state="break"][data-paused="true"] .b-mug-loop { animation: none; }
 
 /* ---------- wave: phase ended ---------- */
-[data-state="wave"] .b-rarm-pose { transform: rotate(-150deg); }
-[data-state="wave"] .b-rarm-loop { animation: b-wave 0.5s ease-in-out infinite alternate; }
+[data-state="wave"] .b-rarm-pose { transform: rotate(-96.7deg); }
+[data-state="wave"] .b-rfore-pose { transform: rotate(-56.2deg); }
+[data-state="wave"] .b-rfore-loop { animation: b-wave 0.5s ease-in-out infinite alternate; }
 [data-state="wave"] .b-body-loop { animation: b-hop 0.5s ease-in-out infinite alternate; }
-[data-state="wave"][data-big="true"] .b-larm-pose { transform: rotate(150deg); }
+[data-state="wave"][data-big="true"] .b-larm-pose { transform: rotate(96.7deg); }
+[data-state="wave"][data-big="true"] .b-lfore-pose { transform: rotate(56.2deg); }
+[data-state="wave"][data-big="true"] .b-lfore-loop { animation: b-wave 0.5s ease-in-out -0.25s infinite alternate; }
 [data-state="wave"][data-big="true"] .b-body-loop { animation: b-hop-big 0.45s ease-in-out infinite alternate; }
 
 /* ---------- sleeping at the desk ---------- */
 [data-state="sleeping"] .b-body-pose { transform: translateY(10px) rotate(-6deg); }
-[data-state="sleeping"] .b-larm-pose { transform: rotate(-55deg); }
-[data-state="sleeping"] .b-rarm-pose { transform: rotate(55deg); }
+[data-state="sleeping"] .b-rarm-pose { transform: rotate(22.8deg); }
+[data-state="sleeping"] .b-rfore-pose { transform: rotate(76.5deg); }
+[data-state="sleeping"] .b-larm-pose { transform: rotate(-22.8deg); }
+[data-state="sleeping"] .b-lfore-pose { transform: rotate(-76.5deg); }
 [data-state="sleeping"] .b-face { transform: translateY(6px); }
 [data-state="sleeping"] .b-eyes-open { opacity: 0; animation: none; }
 [data-state="sleeping"] .b-eyes-closed { opacity: 1; }
@@ -148,15 +170,17 @@
 
 @keyframes b-breathe { 50% { transform: scale(1.025, 0.98); } }
 @keyframes b-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-@keyframes b-type { 50% { transform: translateY(2px); } }
-@keyframes b-sip-mug {
-  0%, 30%, 88%, 100% { transform: none; }
-  48%, 72% { transform: translate(-38px, -30px) rotate(-25deg); }
+@keyframes b-tap { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes b-read {
+  0%, 10% { transform: translateX(-2.5px); }
+  70%, 78% { transform: translateX(2.5px); }
+  88%, 100% { transform: translateX(-2.5px); }
 }
-@keyframes b-sip-arm {
-  0%, 30%, 88%, 100% { transform: none; }
-  48%, 72% { transform: rotate(55deg); }
-}
+/* sip: ~6 s resting, 0.8 s lift, 1.4 s sip, 0.8 s lower (9 s cycle). The mug's
+   counter-rotation keeps it upright until it tilts 20° toward the mouth. */
+@keyframes b-sip-upper { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(65.1deg); } }
+@keyframes b-sip-fore { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(139.2deg); } }
+@keyframes b-sip-mug { 0%, 58%, 91%, 100% { transform: none; } 67%, 82% { transform: rotate(-224.3deg); } }
 @keyframes b-wave { from { transform: rotate(12deg); } to { transform: rotate(-15deg); } }
 @keyframes b-hop { to { transform: translateY(-6px); } }
 @keyframes b-hop-big { to { transform: translateY(-12px) scale(1.03); } }
