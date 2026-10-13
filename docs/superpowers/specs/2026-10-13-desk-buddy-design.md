@@ -102,7 +102,7 @@ Smooth-vector character (rounded body, cheeks, expressive eyes), with poses that
 **Sleeping and waking:**
 - The 10-minute inactivity clock runs only when the timer is not actively counting (paused, idle, or waiting). Any click, key press, or control use resets it.
 - Waking (any activity while asleep): a small startled hop and a stretch, then ease back into the pose held before sleeping (paused state included). No bubble.
-- Demo mode (below) shortens the doze delay to 20 seconds.
+- Demo mode (below) shortens the doze delay to 1 minute.
 
 ### Speech bubbles
 
@@ -149,7 +149,7 @@ Light and dark themes follow the system setting.
 
 ## Demo mode
 
-Enabled with `?demo` in the URL. Focus 10 s, short break 5 s, long break 8 s, doze delay 20 s. Does not write to the real daily count. Used for testing every state quickly and for recording the gallery GIF.
+Enabled with `?demo` in the URL. Focus 10 s, short break 5 s, long break 8 s, doze delay 60 s. Does not write to the real daily count. Used for testing every state quickly and for recording the gallery GIF.
 
 ## Testing
 

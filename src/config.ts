@@ -35,7 +35,7 @@ export function durationsFromSettings(s: Settings): Durations {
 
 export const DEMO_DURATIONS: Durations = { focus: 10_000, shortBreak: 5_000, longBreak: 8_000 };
 export const DOZE_MS = 10 * MINUTE;
-export const DEMO_DOZE_MS = 20_000;
+export const DEMO_DOZE_MS = 60_000;
 export const WAVE_MS = 5_000;
 export const BUBBLE_HOLD_MS = 3_500;
 
