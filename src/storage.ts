@@ -18,7 +18,7 @@ export type ValidationResult =
   | { ok: true; settings: Settings }
   | { ok: false; errors: Partial<Record<keyof Settings, string>> };
 
-const KEYS = {
+export const STORAGE_KEYS = {
   settings: 'deskBuddy.settings',
   progress: 'deskBuddy.progress',
   muted: 'deskBuddy.muted',
@@ -85,14 +85,14 @@ function readJson(store: StorageLike, key: string): unknown {
 }
 
 export function loadSettings(store: StorageLike): Settings {
-  const raw = readJson(store, KEYS.settings);
+  const raw = readJson(store, STORAGE_KEYS.settings);
   if (!raw || typeof raw !== 'object') return { ...DEFAULT_SETTINGS };
   const result = validateSettings({ ...DEFAULT_SETTINGS, ...(raw as Partial<Settings>) });
   return result.ok ? result.settings : { ...DEFAULT_SETTINGS };
 }
 
 export function saveSettings(store: StorageLike, s: Settings): void {
-  store.setItem(KEYS.settings, JSON.stringify(s));
+  store.setItem(STORAGE_KEYS.settings, JSON.stringify(s));
 }
 
 function isCount(v: unknown): v is number {
@@ -100,14 +100,14 @@ function isCount(v: unknown): v is number {
 }
 
 function readProgress(store: StorageLike): DayProgress | null {
-  const raw = readJson(store, KEYS.progress) as Partial<DayProgress> | null;
+  const raw = readJson(store, STORAGE_KEYS.progress) as Partial<DayProgress> | null;
   if (!raw || typeof raw.date !== 'string') return null;
   if (!isCount(raw.todayCount) || !isCount(raw.cycleCount)) return null;
   return { date: raw.date, todayCount: raw.todayCount, cycleCount: raw.cycleCount };
 }
 
 function writeProgress(store: StorageLike, p: DayProgress): DayProgress {
-  store.setItem(KEYS.progress, JSON.stringify(p));
+  store.setItem(STORAGE_KEYS.progress, JSON.stringify(p));
   return p;
 }
 
@@ -130,36 +130,36 @@ export function resetCycle(store: StorageLike, nowMs: number): DayProgress {
 }
 
 export function loadMuted(store: StorageLike): boolean {
-  return store.getItem(KEYS.muted) === 'true';
+  return store.getItem(STORAGE_KEYS.muted) === 'true';
 }
 
 export function saveMuted(store: StorageLike, muted: boolean): void {
-  store.setItem(KEYS.muted, String(muted));
+  store.setItem(STORAGE_KEYS.muted, String(muted));
 }
 
 export function loadSound(store: StorageLike): SoundName {
-  const raw = store.getItem(KEYS.sound);
+  const raw = store.getItem(STORAGE_KEYS.sound);
   return SOUNDS.find((s) => s === raw) ?? 'chime';
 }
 
 export function saveSound(store: StorageLike, sound: SoundName): void {
-  store.setItem(KEYS.sound, sound);
+  store.setItem(STORAGE_KEYS.sound, sound);
 }
 
 export function loadBuddyColor(store: StorageLike): BuddyColor {
-  const raw = store.getItem(KEYS.color);
+  const raw = store.getItem(STORAGE_KEYS.color);
   return BUDDY_COLORS.find((c) => c === raw) ?? 'peach';
 }
 
 export function saveBuddyColor(store: StorageLike, color: BuddyColor): void {
-  store.setItem(KEYS.color, color);
+  store.setItem(STORAGE_KEYS.color, color);
 }
 
 export function loadAppearance(store: StorageLike): Appearance {
-  const raw = store.getItem(KEYS.appearance);
+  const raw = store.getItem(STORAGE_KEYS.appearance);
   return APPEARANCES.find((a) => a === raw) ?? 'auto';
 }
 
 export function saveAppearance(store: StorageLike, appearance: Appearance): void {
-  store.setItem(KEYS.appearance, appearance);
+  store.setItem(STORAGE_KEYS.appearance, appearance);
 }

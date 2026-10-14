@@ -27,6 +27,10 @@ export interface SettingsPanelOptions {
   onPreviewSound(sound: SoundName): void;
   /** Shows look choices live while choosing; called with the saved prefs again on cancel. */
   onPreviewLook(prefs: Prefs): void;
+  /** Page mode (desktop settings window): the panel fills the page instead of opening as a modal. */
+  page?: boolean;
+  /** Called after Save or Cancel closes the panel. */
+  onClose?(): void;
 }
 
 const radios = <T extends string>(name: string, values: readonly T[], labels: Record<T, string>, cls: string) =>
@@ -38,7 +42,7 @@ const radios = <T extends string>(name: string, values: readonly T[], labels: Re
 
 export function createSettingsPanel(o: SettingsPanelOptions) {
   const dialog = document.createElement('dialog');
-  dialog.className = 'settings';
+  dialog.className = o.page ? 'settings settings--page' : 'settings';
   dialog.setAttribute('aria-labelledby', 'settings-title');
   dialog.innerHTML = `
     <form novalidate>
@@ -118,6 +122,7 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
   // Escape, Cancel, or closing without saving puts the saved look back.
   dialog.addEventListener('close', () => {
     if (!saved) o.onPreviewLook(o.getPrefs());
+    o.onClose?.();
   });
 
   dialog.querySelector('[data-action="cancel"]')!.addEventListener('click', () => dialog.close());
@@ -155,7 +160,8 @@ export function createSettingsPanel(o: SettingsPanelOptions) {
       soundSelect.value = p.sound;
       saved = false;
       clearErrors();
-      dialog.showModal();
+      if (o.page) dialog.show();
+      else dialog.showModal();
     },
   };
 }

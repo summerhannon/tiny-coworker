@@ -1,3 +1,4 @@
+import './fonts';
 import './styles.css';
 import './buddy/buddy.css';
 import './themes.css';

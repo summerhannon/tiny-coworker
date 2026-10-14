@@ -22,6 +22,7 @@ function setup() {
   const chime = { play: vi.fn() };
   const store = memoryStore();
   let progress: DayProgress | undefined;
+  const phaseEnds: string[] = [];
   const c = new Controller({
     timer, buddy, chime,
     pickLine: (m) => `line:${m}`,
@@ -29,10 +30,11 @@ function setup() {
     recordFocus: (n) => recordFocus(store, now(), n),
     resetCycle: () => resetCycle(store, now()),
     onProgress: (p) => { progress = p; },
+    onPhaseEnd: (line) => phaseEnds.push(line),
     now, dozeMs: 10_000, waveMs: 5_000,
   });
   const advance = (ms: number) => { vi.advanceTimersByTime(ms); c.tick(); };
-  return { timer, buddy, chime, c, advance, progress: () => progress };
+  return { timer, buddy, chime, c, advance, progress: () => progress, phaseEnds };
 }
 
 beforeEach(() => {
@@ -102,6 +104,14 @@ describe('Controller', () => {
     expect(progress()).toMatchObject({ todayCount: 2, cycleCount: 2 });
     timer.start(); advance(800);
     expect(progress()).toMatchObject({ todayCount: 2, cycleCount: 0 });
+  });
+
+  it('reports the phase-end line (for desktop notifications)', () => {
+    const { timer, advance, phaseEnds } = setup();
+    timer.start();
+    expect(phaseEnds).toEqual([]);
+    advance(1000);
+    expect(phaseEnds).toEqual(['line:focusEnd']);
   });
 
   it('skip and reset go idle without a bubble', () => {

@@ -1,3 +1,4 @@
+import './fonts';
 import './styles.css';
 import './buddy/buddy.css';
 import './themes.css';
@@ -17,6 +18,7 @@ import {
 import { Timer } from './timer';
 import { createSettingsPanel, type Prefs } from './ui/settings-panel';
 import { createView } from './ui/view';
+import { isDesktop } from './desktop/detect';
 
 const demo = new URLSearchParams(location.search).has('demo');
 const store = demo ? memoryStore() : safeLocalStorage();
@@ -31,6 +33,8 @@ const showLook = (p: Prefs) => {
 };
 showLook(prefs);
 let progress = loadProgress(store, now());
+
+const phaseEndListeners: ((line: string) => void)[] = [];
 
 const timer = new Timer({
   now,
@@ -54,6 +58,7 @@ const controller = new Controller({
   now,
   dozeMs: demo ? DEMO_DOZE_MS : DOZE_MS,
   waveMs: WAVE_MS,
+  onPhaseEnd: (line) => phaseEndListeners.forEach((l) => l(line)),
 });
 
 const toggle = () => {
@@ -121,3 +126,32 @@ const loop = () => {
 requestAnimationFrame(loop);
 // rAF pauses in background tabs; this keeps phase ends (and the chime) firing there.
 setInterval(frame, 1000);
+
+// Desktop app only: the floating window, menu bar item, settings window and notifications.
+// Loaded lazily so the browser build never runs (or downloads) any of it.
+if (isDesktop()) {
+  document.documentElement.dataset.desktop = '';
+  void import('./desktop').then((m) =>
+    m.startDesktop({
+      timer,
+      chime,
+      store,
+      toggle,
+      onPhaseEnd: (l) => phaseEndListeners.push(l),
+      reload: {
+        settings: () => {
+          settings = loadSettings(store);
+          timer.setConfig(durationsFor(settings), settings.longBreakEvery);
+        },
+        look: () => {
+          prefs = { ...prefs, color: loadBuddyColor(store), appearance: loadAppearance(store) };
+          showLook(prefs);
+        },
+        sound: () => {
+          prefs = { ...prefs, sound: loadSound(store) };
+          chime.sound = prefs.sound;
+        },
+      },
+    }).catch(m.recoverDesktop),
+  );
+}

@@ -103,7 +103,7 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   .phase-label { font-size: 11px; }
   .buddy-slot { padding-top: 28px; }
   .buddy { --mouth-drop: 30px; }
-  .buddy-svg { width: 100px; height: 90px; }
+  .app .buddy-svg { width: 100px; height: 90px; }
   .app .bubble { bottom: calc(100% - 28px); max-width: 160px; left: 0; transform: none; }
   .app .bubble-box { transform-origin: 50px calc(100% + var(--mouth-drop)); }
   .app .bubble-box::after { left: 50px; }
@@ -121,6 +121,10 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
 .settings {
   border: 1px solid var(--border); border-radius: 16px; padding: 20px;
   background: var(--surface); color: var(--text); width: min(92vw, 360px);
+}
+.settings--page {
+  position: static; margin: 0; width: 100%; max-width: none; min-height: 100vh;
+  border: 0; border-radius: 0; padding: 20px 24px;
 }
 .settings::backdrop { background: rgba(0, 0, 0, 0.35); }
 .settings h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }

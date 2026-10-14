@@ -14,6 +14,8 @@ export interface ControllerDeps {
   recordFocus: (cycleCount: number) => DayProgress;
   resetCycle: () => DayProgress;
   onProgress: (p: DayProgress) => void;
+  /** Optional: told the buddy's line whenever a phase ends (desktop notifications use it). */
+  onPhaseEnd?: (line: string) => void;
   now: () => number;
   dozeMs: number;
   waveMs: number;
@@ -108,7 +110,9 @@ export class Controller {
     const moment: Moment = e.cycleComplete ? 'milestone' : e.phase === 'focus' ? 'focusEnd' : 'breakEnd';
     buddy.setPaused(false);
     this.show('wave', { big: e.cycleComplete });
-    buddy.say(pickLine(moment));
+    const line = pickLine(moment);
+    buddy.say(line);
+    this.d.onPhaseEnd?.(line);
     this.idle.setEligible(true);
     this.waveTimer = setTimeout(() => {
       if (this.state === 'wave') this.show('idle');
