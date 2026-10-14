@@ -55,6 +55,8 @@ export async function createTray(d: TrayDeps): Promise<{ refresh(): void }> {
     ],
   });
 
+  // A dev reload re-runs this; remove the previous item instead of stacking a second one.
+  await (await TrayIcon.getById('desk-buddy'))?.close();
   const tray = await TrayIcon.new({
     id: 'desk-buddy',
     icon: await trayIconPng(),
@@ -70,9 +72,9 @@ export async function createTray(d: TrayDeps): Promise<{ refresh(): void }> {
   setInterval(() => {
     const snap = d.timer.snapshot();
     const title = trayTitle(snap);
-    if (title !== lastTitle) void tray.setTitle((lastTitle = title) || null);
+    if (title !== lastTitle) tray.setTitle((lastTitle = title) || null).catch(console.warn);
     const label = toggleLabel(snap.status);
-    if (label !== lastToggle) void toggleItem.setText((lastToggle = label));
+    if (label !== lastToggle) toggleItem.setText((lastToggle = label)).catch(console.warn);
   }, 500);
 
   return {
@@ -128,6 +130,8 @@ async function trayIconPng(): Promise<Uint8Array> {
   g.beginPath();
   g.arc(18, 21, 3, 0.2 * Math.PI, 0.8 * Math.PI);
   g.stroke();
-  const blob = await new Promise<Blob>((resolve) => canvas.toBlob((b) => resolve(b!), 'image/png'));
+  const blob = await new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not draw the menu bar icon'))), 'image/png'),
+  );
   return new Uint8Array(await blob.arrayBuffer());
 }

@@ -27,10 +27,6 @@ export async function startDesktop(ctx: DesktopContext): Promise<void> {
   const win = getCurrentWindow();
   let prefs = loadDesktopPrefs(ctx.store);
 
-  enableDragging(() => void win.startDragging());
-  await placeWindow(ctx.store);
-  void win.onMoved(debounce(({ payload }) => saveWindowPosition(ctx.store, payload), 300));
-
   const apply = async (p: DesktopPrefs) => {
     await invoke('set_dock_visible', { visible: p.showInDock });
     await win.setIgnoreCursorEvents(p.clickThrough);
@@ -40,11 +36,11 @@ export async function startDesktop(ctx: DesktopContext): Promise<void> {
   const update = (change: Partial<DesktopPrefs>) => {
     prefs = { ...prefs, ...change };
     saveDesktopPrefs(ctx.store, prefs);
-    void apply(prefs);
+    warnOnError(apply(prefs));
     tray.refresh();
   };
-  await apply(prefs);
 
+  // The menu bar item comes first: it's the way back if anything else goes wrong.
   const tray = await createTray({
     timer: ctx.timer,
     toggle: ctx.toggle,
@@ -57,8 +53,15 @@ export async function startDesktop(ctx: DesktopContext): Promise<void> {
     },
   });
 
+  enableDragging(() => warnOnError(win.startDragging()));
+  await placeWindow(ctx.store);
+  warnOnError(win.onMoved(debounce(({ payload }) => saveWindowPosition(ctx.store, payload), 300)));
+  await apply(prefs); // the window starts hidden; this shows it (unless "Show buddy" is off)
+
   // Clicking the Dock icon re-shows a hidden buddy (handled natively); keep the menu in step.
-  void listen('buddy-shown', () => update({ showBuddy: true }));
+  warnOnError(listen('buddy-shown', () => {
+    if (!prefs.showBuddy) update({ showBuddy: true });
+  }));
 
   // The settings window saves to shared storage; pick its changes up here.
   window.addEventListener('storage', (e) =>
@@ -68,13 +71,32 @@ export async function startDesktop(ctx: DesktopContext): Promise<void> {
       sound: ctx.reload.sound,
       desktop: () => {
         prefs = loadDesktopPrefs(ctx.store);
-        void apply(prefs);
+        warnOnError(apply(prefs));
         tray.refresh();
       },
     }),
   );
 
-  ctx.onPhaseEnd((line) => void notify(line));
+  ctx.onPhaseEnd((line) => warnOnError(notify(line)));
+}
+
+/**
+ * Last resort if startup fails: make sure the app can still be reached and quit
+ * (visible window, Dock icon, clicks not passing through).
+ */
+export async function recoverDesktop(error: unknown): Promise<void> {
+  console.error('Desk Buddy desktop startup failed', error);
+  const win = getCurrentWindow();
+  await Promise.allSettled([
+    invoke('set_dock_visible', { visible: true }),
+    win.setIgnoreCursorEvents(false),
+    win.show(),
+  ]);
+}
+
+/** Fire-and-forget Tauri calls: log failures instead of leaving unhandled rejections. */
+function warnOnError(p: Promise<unknown>): void {
+  p.catch((e) => console.warn('Desk Buddy:', e));
 }
 
 /** Drag the window by the buddy or the time; buttons and inputs keep working. */
@@ -90,13 +112,20 @@ function enableDragging(start: () => void): void {
 /** Reopen where the buddy was left, unless that spot is no longer on a screen. */
 async function placeWindow(store: StorageLike): Promise<void> {
   const win = getCurrentWindow();
-  const size = await win.outerSize();
-  const monitors = (await availableMonitors()).map((m) => ({
-    x: m.position.x, y: m.position.y, width: m.size.width, height: m.size.height,
-  }));
-  const pos = restorePosition(loadWindowPosition(store), monitors, size);
-  if (pos) await win.setPosition(new PhysicalPosition(pos.x, pos.y));
-  else await win.center();
+  try {
+    const size = await win.outerSize();
+    const monitors = (await availableMonitors()).map((m) => ({
+      x: m.position.x, y: m.position.y, width: m.size.width, height: m.size.height,
+    }));
+    const pos = restorePosition(loadWindowPosition(store), monitors, size);
+    if (pos) {
+      await win.setPosition(new PhysicalPosition(pos.x, pos.y));
+      return;
+    }
+  } catch (e) {
+    console.warn('Desk Buddy: could not restore the window position', e);
+  }
+  await win.center();
 }
 
 async function notify(body: string): Promise<void> {

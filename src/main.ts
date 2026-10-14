@@ -152,6 +152,6 @@ if (isDesktop()) {
           chime.sound = prefs.sound;
         },
       },
-    }),
+    }).catch(m.recoverDesktop),
   );
 }

@@ -10,6 +10,10 @@ import {
   saveAppearance, saveBuddyColor, saveSettings, saveSound,
 } from '../storage';
 import { createSettingsPanel, type Prefs } from '../ui/settings-panel';
+import { isDesktop } from './detect';
+
+// The settings page only works inside the desktop app; in a browser, go to the app itself.
+if (!isDesktop()) location.replace('./');
 
 // Entry point for the desktop settings window. Saving writes to shared storage;
 // the floating buddy's window hears the change and applies it.

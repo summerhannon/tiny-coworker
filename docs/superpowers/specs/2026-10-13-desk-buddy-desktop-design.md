@@ -35,7 +35,7 @@ A single helper, `isDesktop()`, reports whether the app runs inside Tauri. When 
 
 ## The floating buddy window
 
-- Window `main`: about 260×220, `transparent`, no decorations, no shadow, `alwaysOnTop`, not resizable.
+- Window `main`: 260×320 with a 150 px buddy (so the bubble, time, dots and controls all fit), `transparent`, no decorations, no shadow, `alwaysOnTop`, not resizable. It starts hidden and is shown once it's been placed, and background throttling is off so the timer, menu bar time and notifications keep running while the buddy is hidden.
 - Page background is transparent in desktop mode; only the buddy, its speech bubble, the phase label and the time are visible. The phase label and time get a soft halo (text shadow in the page background color) so they stay readable on any wallpaper.
 - Start/Pause, Skip and Reset fade in when the pointer is over the window (existing compact-layout hover behavior). The settings and mute icons are hidden in the window — Settings… and Mute chime live in the menu bar.
 - Dragging anywhere on the buddy moves the window (`data-tauri-drag-region`); buttons stay clickable.
@@ -70,7 +70,7 @@ A single helper, `isDesktop()`, reports whether the app runs inside Tauri. When 
 
 ## Settings window
 
-- **Settings…** opens a separate, normal (decorated) window titled "Desk Buddy Settings", about 400×520, centered. Opening it again focuses the existing one.
+- **Settings…** opens a separate, normal (decorated) window titled "Desk Buddy Settings", about 400×540, centered. Opening it again focuses the existing one.
 - It shows the same settings panel as the web app (timer lengths, buddy color, appearance, sound) as page content rather than a modal dialog. Save applies and closes the window; Cancel closes without saving.
 - Live preview of color and appearance applies to the settings window itself (its mini buddy), and to the floating buddy only after Save.
 - Both windows share storage. After Save, the floating window picks up the new values without a restart (it listens for storage changes and reapplies settings, look and sound).
@@ -84,8 +84,15 @@ A single helper, `isDesktop()`, reports whether the app runs inside Tauri. When 
 ## Assets
 
 - **App icon:** generated from `assets/app-icon.svg` with `tauri icon` into `src-tauri/icons/`.
-- **Menu bar icon:** a new monochrome `assets/tray-icon.svg` (buddy face silhouette with eye cut-outs) rendered to PNG at 1x/2x and used as a template image.
+- **Menu bar icon:** a monochrome buddy-face silhouette with see-through eyes and smile, drawn in code at launch (2x for Retina) and used as a template image, so there's no extra asset to keep in sync.
 - **Inter font:** bundled locally (woff2 under `src/fonts/`, `@font-face` in CSS) instead of loading from Google Fonts, so the desktop app works offline. The web build uses the same local font.
+
+## Robustness and security
+
+- The menu bar item is created before anything else at launch. If startup fails partway, the app falls back to a visible window, a Dock icon and click-through off, so it can always be reached and quit.
+- Permissions are split per window: the floating buddy gets window control, the menu bar, creating the settings window and notifications; the settings window can only close itself.
+- A content security policy limits the app to its own bundled files.
+- Opening `settings.html` in a browser redirects to the app, since it only works inside the desktop app.
 
 ## Accessibility
 

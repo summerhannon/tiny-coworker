@@ -22,12 +22,13 @@
         "decorations": false,
         "shadow": false,
         "alwaysOnTop": true,
-        "visible": true,
-        "center": true
+        "visible": false,
+        "center": true,
+        "backgroundThrottling": "disabled"
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'"
     },
     "macOSPrivateApi": true
   },
