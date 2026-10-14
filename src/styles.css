@@ -103,7 +103,7 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   .phase-label { font-size: 11px; }
   .buddy-slot { padding-top: 28px; }
   .buddy { --mouth-drop: 30px; }
-  .buddy-svg { width: 100px; height: 90px; }
+  .app .buddy-svg { width: 100px; height: 90px; }
   .app .bubble { bottom: calc(100% - 28px); max-width: 160px; left: 0; transform: none; }
   .app .bubble-box { transform-origin: 50px calc(100% + var(--mouth-drop)); }
   .app .bubble-box::after { left: 50px; }
