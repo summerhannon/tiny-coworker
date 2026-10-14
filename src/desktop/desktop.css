@@ -1,0 +1,38 @@
+/* Desktop app: the floating window is transparent, so only the buddy and its time show on the desktop. */
+html[data-desktop],
+html[data-desktop] body,
+html[data-desktop] #app {
+  background: transparent;
+}
+html[data-desktop] {
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* settings and mute live in the menu bar */
+html[data-desktop] .app-top { display: none; }
+
+/* stack buddy over the time, centered, with room above for the speech bubble */
+html[data-desktop] #app { padding: 0; place-items: end center; height: 100vh; }
+html[data-desktop] .app {
+  grid-template-areas: "buddy" "readout" "controls";
+  grid-template-columns: auto;
+  justify-items: center;
+  gap: 2px;
+  padding-bottom: 6px;
+}
+html[data-desktop] .readout { justify-items: center; }
+html[data-desktop] .buddy-slot { padding-top: 0; cursor: grab; }
+html[data-desktop] .buddy-slot:active { cursor: grabbing; }
+html[data-desktop] .app .bubble { left: 50%; transform: translateX(-50%); }
+html[data-desktop] .app .bubble-box { transform-origin: 50% calc(100% + var(--mouth-drop)); }
+html[data-desktop] .app .bubble-box::after { left: 50%; }
+
+/* a soft halo keeps the text readable on any wallpaper */
+html[data-desktop] .phase-label,
+html[data-desktop] .time,
+html[data-desktop] .today {
+  text-shadow: 0 0 2px var(--bg), 0 0 6px var(--bg), 0 0 12px var(--bg);
+}
+html[data-desktop] .dot { box-shadow: 0 0 0 2px color-mix(in srgb, var(--bg) 60%, transparent); }

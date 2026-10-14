@@ -122,6 +122,10 @@ button.primary { background: var(--accent-fill); color: var(--accent-ink); borde
   border: 1px solid var(--border); border-radius: 16px; padding: 20px;
   background: var(--surface); color: var(--text); width: min(92vw, 360px);
 }
+.settings--page {
+  position: static; margin: 0; width: 100%; max-width: none; min-height: 100vh;
+  border: 0; border-radius: 0; padding: 20px 24px;
+}
 .settings::backdrop { background: rgba(0, 0, 0, 0.35); }
 .settings h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
 .settings-section { margin: 12px 0 6px; font-size: 13px; font-weight: 600; color: var(--text-2); }
