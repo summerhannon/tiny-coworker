@@ -51,17 +51,17 @@ export async function createTray(d: TrayDeps): Promise<{ refresh(): void }> {
       dock,
       await separator(),
       await MenuItem.new({ id: 'settings', text: 'Settings…', action: () => void openSettingsWindow() }),
-      await MenuItem.new({ id: 'quit', text: 'Quit Desk Buddy', action: () => void invoke('quit_app') }),
+      await MenuItem.new({ id: 'quit', text: 'Quit Tiny Coworker', action: () => void invoke('quit_app') }),
     ],
   });
 
   // A dev reload re-runs this; remove the previous item instead of stacking a second one.
-  await (await TrayIcon.getById('desk-buddy'))?.close();
+  await (await TrayIcon.getById('tiny-coworker'))?.close();
   const tray = await TrayIcon.new({
-    id: 'desk-buddy',
+    id: 'tiny-coworker',
     icon: await trayIconPng(),
     iconAsTemplate: true,
-    tooltip: 'Desk Buddy',
+    tooltip: 'Tiny Coworker',
     menu,
     menuOnLeftClick: true,
   });
@@ -98,7 +98,7 @@ export async function openSettingsWindow(): Promise<void> {
   }
   new WebviewWindow('settings', {
     url: 'settings.html',
-    title: 'Desk Buddy Settings',
+    title: 'Tiny Coworker Settings',
     width: 400,
     height: 540,
     center: true,

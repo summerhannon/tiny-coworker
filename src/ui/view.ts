@@ -21,7 +21,7 @@ export interface ViewModel {
 const MARKUP = `
 <main class="app">
   <div class="app-top">
-    <span class="app-name">Desk Buddy</span>
+    <span class="app-name">Tiny Coworker</span>
     <div class="icon-row">
       <button class="icon-btn" data-action="settings" aria-label="Settings">${SETTINGS_ICON}</button>
       <button class="icon-btn" data-action="mute" aria-label="Mute chime" aria-pressed="false">${SOUND_ICON}</button>
@@ -81,7 +81,7 @@ export function createView(root: HTMLElement, buddyEl: HTMLElement, h: ViewHandl
       setText(timeEl, time);
       setText(toggleBtn, status === 'running' ? 'Pause' : status === 'paused' ? 'Resume' : 'Start');
       setText(todayEl, `${m.todayCount} today`);
-      const title = status === 'ready' ? 'Desk Buddy' : `${time} · ${label}`;
+      const title = status === 'ready' ? 'Tiny Coworker' : `${time} · ${label}`;
       if (document.title !== title) document.title = title;
       const nextLive = `${phase}/${status}`;
       if (nextLive !== liveKey) {

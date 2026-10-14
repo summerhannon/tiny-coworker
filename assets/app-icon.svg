@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <!-- Desk Buddy desktop app icon (source for the Tauri icon set in the desktop phase):
+  <!-- Tiny Coworker desktop app icon (source for the Tauri icon set in the desktop phase):
        the buddy's head and shoulders rising from a cream rounded-square tile -->
   <defs>
     <clipPath id="tile"><rect width="1024" height="1024" rx="225"/></clipPath>
