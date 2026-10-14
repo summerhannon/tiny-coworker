@@ -23,7 +23,12 @@ html[data-desktop] .app {
   padding-bottom: 6px;
 }
 html[data-desktop] .readout { justify-items: center; }
-html[data-desktop] .buddy-slot { padding-top: 0; cursor: grab; }
+html[data-desktop] .buddy-slot { padding-top: 44px; cursor: grab; }
+/* a smaller buddy suits a desktop companion; the bubble still grows from its mouth */
+html[data-desktop] .buddy { --mouth-drop: 44px; }
+html[data-desktop] .buddy-svg { width: 150px; height: 135px; }
+html[data-desktop] .app .bubble { bottom: calc(100% - 42px); max-width: 220px; }
+html[data-desktop] .time { font-size: 28px; }
 html[data-desktop] .buddy-slot:active { cursor: grabbing; }
 html[data-desktop] .app .bubble { left: 50%; transform: translateX(-50%); }
 html[data-desktop] .app .bubble-box { transform-origin: 50% calc(100% + var(--mouth-drop)); }

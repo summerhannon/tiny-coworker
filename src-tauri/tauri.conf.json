@@ -5,8 +5,8 @@
   "identifier": "com.summerhannon.deskbuddy",
   "build": {
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:5173",
-    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5180",
+    "beforeDevCommand": "npm run dev -- --port 5180 --strictPort",
     "beforeBuildCommand": "npm run build"
   },
   "app": {
@@ -15,7 +15,7 @@
         "label": "main",
         "title": "Desk Buddy",
         "width": 260,
-        "height": 220,
+        "height": 320,
         "resizable": false,
         "fullscreen": false,
         "transparent": true,
