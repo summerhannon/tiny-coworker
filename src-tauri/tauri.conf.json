@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "Desk Buddy",
+  "productName": "Tiny Coworker",
   "version": "0.1.0",
   "identifier": "com.summerhannon.deskbuddy",
   "build": {
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Desk Buddy",
+        "title": "Tiny Coworker",
         "width": 260,
         "height": 320,
         "resizable": false,
@@ -45,6 +45,6 @@
       "icons/icon.ico"
     ],
     "category": "Productivity",
-    "shortDescription": "A desk buddy that keeps you company through focus sessions."
+    "shortDescription": "A tiny coworker that keeps you company through focus sessions."
   }
 }

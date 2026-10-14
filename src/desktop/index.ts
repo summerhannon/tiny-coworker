@@ -85,7 +85,7 @@ export async function startDesktop(ctx: DesktopContext): Promise<void> {
  * (visible window, Dock icon, clicks not passing through).
  */
 export async function recoverDesktop(error: unknown): Promise<void> {
-  console.error('Desk Buddy desktop startup failed', error);
+  console.error('Tiny Coworker desktop startup failed', error);
   const win = getCurrentWindow();
   await Promise.allSettled([
     invoke('set_dock_visible', { visible: true }),
@@ -96,7 +96,7 @@ export async function recoverDesktop(error: unknown): Promise<void> {
 
 /** Fire-and-forget Tauri calls: log failures instead of leaving unhandled rejections. */
 function warnOnError(p: Promise<unknown>): void {
-  p.catch((e) => console.warn('Desk Buddy:', e));
+  p.catch((e) => console.warn('Tiny Coworker:', e));
 }
 
 /** Drag the window by the buddy or the time; buttons and inputs keep working. */
@@ -123,7 +123,7 @@ async function placeWindow(store: StorageLike): Promise<void> {
       return;
     }
   } catch (e) {
-    console.warn('Desk Buddy: could not restore the window position', e);
+    console.warn('Tiny Coworker: could not restore the window position', e);
   }
   await win.center();
 }
@@ -131,7 +131,7 @@ async function placeWindow(store: StorageLike): Promise<void> {
 async function notify(body: string): Promise<void> {
   let granted = await isPermissionGranted();
   if (!granted) granted = (await requestPermission()) === 'granted';
-  if (granted) sendNotification({ title: 'Desk Buddy', body });
+  if (granted) sendNotification({ title: 'Tiny Coworker', body });
 }
 
 function debounce<T>(fn: (arg: T) => void, ms: number): (arg: T) => void {
